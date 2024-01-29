@@ -8,6 +8,9 @@ export interface DataStore {
   gridTrueSize: number;
   setGridTrueSize: (n: number) => void;
 
+  cellSize: number;
+  setCellSize: (n: number) => void;
+
   distance: number;
   setDistance: (n: number) => void;
 }
@@ -18,6 +21,13 @@ export const useDataStore = create(
     setSize(w) {
       set((s) => {
         s.size = w;
+      });
+    },
+
+    cellSize: 112.5,
+    setCellSize(n) {
+      set((s) => {
+        s.cellSize = n;
       });
     },
 

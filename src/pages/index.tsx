@@ -1,5 +1,5 @@
 import todec from '2dec';
-import { Box, Input, Stack, Typography } from '@mui/joy';
+import { Box, Input, Option, Select, Stack, Typography } from '@mui/joy';
 import React from 'react';
 
 import Canvas from '@/components/atoms/Canvas';
@@ -9,6 +9,7 @@ import { useDataStore } from '@/stores/data';
 export default function Index() {
   const distance = useDataStore((s) => s.distance);
   const setGridTrueSize = useDataStore((s) => s.setGridTrueSize);
+  const setCellSize = useDataStore((s) => s.setCellSize);
 
   return (
     <Page>
@@ -42,6 +43,21 @@ export default function Index() {
                 if (/[0-9]+/.test(value)) setGridTrueSize(Number(value));
               }}
             />
+          </Stack>
+
+          <Stack direction="row" justifyContent="space-between">
+            <Typography level="title-md">Cell size</Typography>
+            <Select
+              defaultValue="112.5"
+              onChange={(event, newValue) => {
+                if (newValue) setCellSize(Number(newValue));
+              }}
+            >
+              <Option value="112.5">122.5 px</Option>
+              <Option value="75">75 px</Option>
+              <Option value="50">50 px</Option>
+              <Option value="37.5">37.5 px</Option>
+            </Select>
           </Stack>
         </Stack>
 

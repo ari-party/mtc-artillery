@@ -43,12 +43,12 @@ export default function Canvas() {
   }));
   const setTrueDistance = useDataStore((s) => s.setDistance);
   const gridTrueSize = useDataStore((s) => s.gridTrueSize);
+  const cellSize = useDataStore((s) => s.cellSize);
   const ref = useRef<null | HTMLCanvasElement>(null);
 
   const [position1, setPosition1] = useState<Coordinates>({ x: -1, y: -1 });
   const [position2, setPosition2] = useState<Coordinates>({ x: -1, y: -1 });
 
-  const cellSize = 112.5;
   const markSize = 17.5;
 
   useEffect(() => {
@@ -95,7 +95,15 @@ export default function Canvas() {
 
       setTrueDistance(trueDistance);
     }
-  }, [height, width, position1, position2, setTrueDistance, gridTrueSize]);
+  }, [
+    cellSize,
+    height,
+    width,
+    position1,
+    position2,
+    setTrueDistance,
+    gridTrueSize,
+  ]);
 
   useEffect(() => {
     const canvas = ref.current;
