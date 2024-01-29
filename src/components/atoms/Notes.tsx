@@ -15,7 +15,7 @@ export default function Notes() {
         sx={{
           height: '100%',
           width: '100%',
-          minWidth: '300px',
+          minWidth: { md: '300px', lg: '450px' },
           minHeight: '100px',
         }}
       />
