@@ -1,0 +1,104 @@
+{
+  "env": {
+    "browser": true
+  },
+  "extends": [
+    "airbnb",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "next"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "./",
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "import",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "ignorePatterns": [],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": "./tsconfig.json"
+      }
+    }
+  },
+  "rules": {
+    "prettier/prettier": "warn",
+    "consistent-return": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/no-array-index-key": "off",
+    "no-param-reassign": "off",
+    "line-comment-position": [
+      "warn",
+      {
+        "position": "above"
+      }
+    ],
+    "import/prefer-default-export": "off",
+    "no-await-in-loop": "off",
+    "no-continue": "off",
+    "no-restricted-syntax": "off",
+    "no-console": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/extensions": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "import/order": [
+      "warn",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          [
+            "internal",
+            "parent",
+            "sibling",
+            "index"
+          ],
+          "type"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "@typescript-eslint/array-type": [
+      "warn",
+      {
+        "default": "array-simple"
+      }
+    ],
+    "default-case": "off",
+    "no-nested-ternary": "off",
+    "no-duplicate-imports": "off",
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "type-imports",
+        "fixStyle": "separate-type-imports"
+      }
+    ],
+    "@typescript-eslint/consistent-type-definitions": "error",
+    "@typescript-eslint/consistent-indexed-object-style": "error",
+    "@typescript-eslint/consistent-generic-constructors": "warn",
+    "@typescript-eslint/consistent-type-assertions": [
+      "error",
+      {
+        "assertionStyle": "as",
+        "objectLiteralTypeAssertions": "allow"
+      }
+    ],
+    "@typescript-eslint/method-signature-style": [
+      "error",
+      "property"
+    ],
+    "react/jsx-filename-extension": "off"
+  }
+}
