@@ -3,11 +3,7 @@ import React from 'react';
 
 import type { PropsWithChildren } from 'react';
 
-export const theme = extendTheme({
-  colorSchemes: {
-    dark: {},
-  },
-});
+export const theme = extendTheme({});
 
 export default function Theme({ children }: PropsWithChildren) {
   return (
