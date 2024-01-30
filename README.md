@@ -2,4 +2,4 @@
 
 A website I quickly built together to get the distance between 2 points in a grid with grid size as user input.
 
-![image](https://github.com/ari-party/position-distance/assets/49074962/25cd0075-6a5c-4905-b202-465918bc817b)
+![image](https://github.com/ari-party/position-distance/assets/49074962/13b56b9e-128b-432a-9148-020e9f87907e)
