@@ -1,33 +1,87 @@
 import todec from '2dec';
 import { Box, Input, Option, Select, Stack, Typography } from '@mui/joy';
-import React from 'react';
+import Head from 'next/head';
+import React, { useState } from 'react';
 
 import Canvas from '@/components/atoms/Canvas';
-import Notes from '@/components/atoms/Notes';
 import Page from '@/components/layout/Page';
 import { useDataStore } from '@/stores/data';
+import {
+  calculateAzimuth,
+  calculateDistance,
+  calculateElevation,
+} from '@/utils/math';
+
+import type { Map } from '@/components/atoms/Canvas';
+import type { PropsWithChildren } from 'react';
+
+/**
+ * Size is calculated by multiplying the grid size (in studs) by the amount of grid cells (usually 9)
+ */
+export const maps: Map[] = [
+  {
+    image: '/arctic_airbase.jpeg',
+    name: 'Arctic Airbase',
+    size: 4041,
+  },
+  {
+    image: '/dustbowl.jpeg',
+    name: 'Dustbowl',
+    size: 3438,
+  },
+  {
+    image: '/powerplant.png',
+    name: 'Powerplant',
+    size: 3996,
+  },
+  {
+    image: '/radar_station.jpeg',
+    name: 'Radar Station',
+    size: 6372,
+  },
+  {
+    image: '/roinburg.jpeg',
+    name: 'Roinburg',
+    size: 3546,
+  },
+  {
+    image: '/sokolokva.jpeg',
+    name: 'Sokolokva',
+    size: 5004,
+  },
+];
+
+function DataContainer({ children }: PropsWithChildren) {
+  return (
+    <Stack direction="row" justifyContent="space-between">
+      {children}
+    </Stack>
+  );
+}
 
 export default function Index() {
-  const distance = useDataStore((s) => s.distance);
-  const setGridTrueSize = useDataStore((s) => s.setGridTrueSize);
-  const setCellSize = useDataStore((s) => s.setCellSize);
-  const canvasWidth = useDataStore((s) => s.size);
-  const positions = useDataStore((s) => s.positions);
+  const map = useDataStore((s) => s.map);
+  const setMap = useDataStore((s) => s.setMap);
+  const [gun, target] = useDataStore((s) => [s.gun, s.target]);
+  const [velocity, setVelocity] = useState(150);
+
+  // Convert canvas scale to map scale
+  const distance =
+    (calculateDistance(gun.x, target.x, gun.y, target.y) / 450) *
+    (map?.size || 0);
+
+  const azimuth = calculateAzimuth(gun.x, target.x, gun.y, target.y);
+
+  const elevation = calculateElevation(distance, velocity);
 
   return (
-    <Page>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: {
-            xs: 'column',
-            md: 'row',
-          },
+    <>
+      <Head>
+        <title>MTC Artillery</title>
+      </Head>
 
-          gap: 5,
-        }}
-      >
-        <Stack gap={2.5} width={canvasWidth}>
+      <Page>
+        <Stack gap={2.5} width={450}>
           <Box
             sx={{
               display: 'flex',
@@ -46,72 +100,72 @@ export default function Index() {
               },
             }}
           >
-            <Stack direction="row" justifyContent="space-between">
+            <DataContainer>
               <Typography level="title-md">Distance</Typography>
-              <Typography>{todec(distance)} meters</Typography>
-            </Stack>
+              <Typography>{todec(distance)} studs</Typography>
+            </DataContainer>
 
-            <Stack direction="row" justifyContent="space-between">
+            <DataContainer>
+              <Typography level="title-md">Elevation</Typography>
+              <Typography>
+                {gun.x >= 0 && gun.y >= 0 && target.x >= 0 && target.y >= 0
+                  ? elevation
+                    ? `${todec(elevation)}°`
+                    : 'Too far'
+                  : '0°'}
+              </Typography>
+            </DataContainer>
+
+            <DataContainer>
               <Typography level="title-md">Azimuth</Typography>
               <Typography>
-                {todec(
-                  positions.from && positions.to
-                    ? Math.abs(
-                        (90 +
-                          (Math.atan2(
-                            (positions.to?.y || 0) - (positions.from?.y || 0),
-                            (positions.to?.x || 0) - (positions.from?.x || 0),
-                          ) *
-                            180) /
-                            Math.PI +
-                          360) %
-                          360,
-                      )
-                    : 0,
-                )}
+                {gun.x >= 0 && gun.y >= 0 && target.x >= 0 && target.y >= 0
+                  ? todec(azimuth)
+                  : 0}
                 °
               </Typography>
-            </Stack>
+            </DataContainer>
 
-            <Stack direction="row" justifyContent="space-between">
-              <Typography level="title-md">Grid square size (m)</Typography>
+            <DataContainer>
+              <Typography level="title-md">Velocity</Typography>
               <Input
                 color="neutral"
                 size="sm"
                 variant="soft"
                 type="text"
-                sx={{ width: '75px' }}
-                placeholder="0"
+                sx={{ width: '90px' }}
+                endDecorator={<Typography level="body-sm">(m/s)</Typography>}
+                value={velocity}
                 onChange={(event) => {
                   const { value } = event.target;
-                  if (/^[0-9]+$/.test(value)) setGridTrueSize(Number(value));
+                  if (/^[0-9]+$/.test(value)) setVelocity(Number(value));
                 }}
               />
-            </Stack>
+            </DataContainer>
 
-            <Stack direction="row" justifyContent="space-between">
-              <Typography level="title-md">Cell size</Typography>
+            <DataContainer>
+              <Typography level="title-md">Map</Typography>
               <Select
-                defaultValue="112.5"
                 onChange={(event, newValue) => {
-                  if (newValue) setCellSize(Number(newValue));
+                  setMap(maps[newValue as number]);
                 }}
+                placeholder="Select a map..."
               >
-                <Option value="112.5">4x4</Option>
-                <Option value="75">6x6</Option>
-                <Option value="50">9x9</Option>
-                <Option value="37.5">12x12</Option>
+                {maps.map((item, index) => (
+                  <Option key={index} value={index}>
+                    {item.name}
+                  </Option>
+                ))}
               </Select>
-            </Stack>
+            </DataContainer>
           </Stack>
 
-          <Typography level="body-sm" textAlign="center">
-            Left mouse button for position 1. Right mouse button for position 2.
+          <Typography>
+            Left click to set the gun position. Right click to set the target
+            position.
           </Typography>
         </Stack>
-
-        <Notes />
-      </Box>
-    </Page>
+      </Page>
+    </>
   );
 }

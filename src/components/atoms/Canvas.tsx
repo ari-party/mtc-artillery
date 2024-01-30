@@ -1,143 +1,128 @@
-import { Sheet } from '@mui/joy';
-import { useEffect, useRef, useState } from 'react';
+import { Box, Sheet, Typography } from '@mui/joy';
+import Image from 'next/image';
+import { useEffect, useRef } from 'react';
 
 import { useDataStore } from '@/stores/data';
 
-export interface Coordinates {
+import type { PropsWithChildren } from 'react';
+
+export interface Vector {
   x: number;
   y: number;
 }
 
-function getDistance(x1: number, y1: number, x2: number, y2: number): number {
-  return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+export interface Map {
+  image: string;
+  name: string;
+  size: number;
 }
 
-function drawGrid(
-  width: number,
-  height: number,
-  cellSize: number,
-  context: CanvasRenderingContext2D,
-) {
-  context.clearRect(0, 0, width, height);
+function FragmentContainer({
+  children,
+  zIndex,
+}: PropsWithChildren<{ zIndex: number }>) {
+  return (
+    <Box
+      sx={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
 
-  context.strokeStyle = '#eee';
-  context.beginPath();
+        width: 450,
+        height: 450,
 
-  for (let x = 0; x <= width; x += cellSize) {
-    context.moveTo(x, 0);
-    context.lineTo(x, height);
-  }
-
-  for (let y = 0; y <= height; y += cellSize) {
-    context.moveTo(0, y);
-    context.lineTo(width, y);
-  }
-
-  context.stroke();
+        zIndex,
+      }}
+    >
+      {children}
+    </Box>
+  );
 }
 
 export default function Canvas() {
-  const { width, height } = useDataStore((s) => ({
-    width: s.size,
-    height: s.size,
-  }));
-  const setTrueDistance = useDataStore((s) => s.setDistance);
-  const setPositions = useDataStore((s) => s.setPositions);
-  const gridTrueSize = useDataStore((s) => s.gridTrueSize);
-  const cellSize = useDataStore((s) => s.cellSize);
-  const ref = useRef<null | HTMLCanvasElement>(null);
-
-  const [position1, setPosition1] = useState<Coordinates>({ x: -1, y: -1 });
-  const [position2, setPosition2] = useState<Coordinates>({ x: -1, y: -1 });
-
-  const markSize = 17.5;
+  const map = useDataStore((s) => s.map);
+  const [target, gun] = useDataStore((s) => [s.target, s.gun]);
+  const [setTarget, setGun] = useDataStore((s) => [s.setTarget, s.setGun]);
+  const ref = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
-
     const context = canvas.getContext('2d') as CanvasRenderingContext2D;
 
-    drawGrid(width, height, cellSize, context);
+    context.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (
-      position1.x !== -1 &&
-      position1.y !== -1 &&
-      position2.x !== -1 &&
-      position2.y !== -1
-    ) {
-      setPositions(position1, position2);
+    const markerRadius = 8;
+    const gunValid = gun.x >= 0 && gun.y >= 0;
+    const targetValid = target.x >= 0 && target.y >= 0;
 
-      const distance = getDistance(
-        position1.x,
-        position1.y,
-        position2.x,
-        position2.y,
-      );
-
-      const trueDistance = (distance / cellSize) * gridTrueSize;
-
-      setTrueDistance(trueDistance);
-
-      context.strokeStyle = '#96b2bf';
+    if (gunValid && targetValid) {
+      context.strokeStyle = '#FFF';
       context.beginPath();
-      context.moveTo(position1.x, position1.y);
-      context.lineTo(position2.x, position2.y);
+      context.moveTo(gun.x, gun.y);
+      context.lineTo(target.x, target.y);
       context.stroke();
     }
 
-    if (position1.x !== -1 && position1.y !== -1) {
-      context.fillStyle = '#7cacda';
-      context.fillRect(
-        position1.x - markSize / 2,
-        position1.y - markSize / 2,
-        markSize,
-        markSize,
-      );
+    if (gunValid) {
+      context.fillStyle = '#52a8ff';
+      context.beginPath();
+      context.arc(gun.x, gun.y, markerRadius, 0, 2 * Math.PI);
+      context.fill();
     }
 
-    if (position2.x !== -1 && position2.y !== -1) {
-      context.fillStyle = '#da7c7c';
-      context.fillRect(
-        position2.x - markSize / 2,
-        position2.y - markSize / 2,
-        markSize,
-        markSize,
-      );
+    if (targetValid) {
+      context.fillStyle = '#ff6666';
+      context.beginPath();
+      context.arc(target.x, target.y, markerRadius, 0, 2 * Math.PI);
+      context.fill();
     }
-  }, [
-    cellSize,
-    height,
-    width,
-    position1,
-    position2,
-    setTrueDistance,
-    setPositions,
-    gridTrueSize,
-  ]);
 
-  useEffect(() => {
-    const canvas = ref.current;
-    if (!canvas) return;
+    function clickListener(event: MouseEvent) {
+      setGun(event.offsetX, event.offsetY);
+    }
 
-    canvas.addEventListener('click', (event) => {
-      const coordinates: Coordinates = { x: event.offsetX, y: event.offsetY };
-
-      setPosition1(coordinates);
-    });
-
-    canvas.addEventListener('contextmenu', (event) => {
+    function contextMenuClickListener(event: MouseEvent) {
       event.preventDefault();
 
-      const coordinates: Coordinates = { x: event.offsetX, y: event.offsetY };
+      setTarget(event.offsetX, event.offsetY);
+    }
 
-      setPosition2(coordinates);
-    });
-  }, []);
+    canvas.addEventListener('click', clickListener);
+    canvas.addEventListener('contextmenu', contextMenuClickListener);
+
+    return () => {
+      canvas.removeEventListener('click', clickListener);
+      canvas.removeEventListener('contextmenu', contextMenuClickListener);
+    };
+  });
 
   return (
-    <Sheet sx={{ width, height }}>
-      <canvas ref={ref} width={width} height={height} />
+    <Sheet sx={{ width: 450, height: 450 }}>
+      {map ? (
+        <>
+          <FragmentContainer zIndex={1}>
+            <Image alt={map.name} src={map.image} quality={100} fill />
+          </FragmentContainer>
+
+          <FragmentContainer zIndex={2}>
+            <canvas ref={ref} height={450} width={450} />
+          </FragmentContainer>
+        </>
+      ) : (
+        <Typography
+          sx={{
+            height: '100%',
+
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          level="title-lg"
+        >
+          Please select a map.
+        </Typography>
+      )}
     </Sheet>
   );
 }

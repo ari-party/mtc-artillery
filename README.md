@@ -1,5 +1,3 @@
-# position-distance
+# mtc-artillery
 
-A website I quickly built together to get the distance between 2 points in a grid with grid size as user input.
-
-![image](https://github.com/ari-party/position-distance/assets/49074962/13b56b9e-128b-432a-9148-020e9f87907e)
+Tool to calculate distance, elevation and azimuth for artillery in [MTC](https://www.roblox.com/games/9520328730/WW2-UPDATE-Multicrew-Tank-Combat-4).
