@@ -2,8 +2,8 @@ import { Box, Sheet, Typography } from '@mui/joy';
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 
+import { maps } from '@/constants';
 import { useDataStore } from '@/stores/data';
-import useHasHydrated from '@/utils/hasHydrated';
 
 import type { PropsWithChildren } from 'react';
 
@@ -41,8 +41,8 @@ function FragmentContainer({
 }
 
 export default function Canvas() {
-  const hasHydrated = useHasHydrated();
-  const map = useDataStore((s) => s.map);
+  const mapIndex = useDataStore((s) => s.mapIndex);
+  const map = maps[mapIndex];
   const [target, gun] = useDataStore((s) => [s.target, s.gun]);
   const [setTarget, setGun] = useDataStore((s) => [s.setTarget, s.setGun]);
   const ref = useRef<HTMLCanvasElement | null>(null);
@@ -101,10 +101,10 @@ export default function Canvas() {
 
   return (
     <Sheet sx={{ width: 450, height: 450 }}>
-      {map && hasHydrated ? (
+      {map ? (
         <>
           <FragmentContainer zIndex={1}>
-            <Image alt={map.name} src={map.image} quality={100} fill />
+            <Image alt={map.name} src={map.image} quality={100} priority fill />
           </FragmentContainer>
 
           <FragmentContainer zIndex={2}>

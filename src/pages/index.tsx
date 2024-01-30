@@ -9,6 +9,7 @@ import ElevationValue from '@/components/atoms/data/Elevation';
 import MapSelection from '@/components/atoms/data/Map';
 import VelocityInput from '@/components/atoms/data/Velocity';
 import Page from '@/components/layout/Page';
+import { maps } from '@/constants';
 import { useDataStore } from '@/stores/data';
 import useHasHydrated from '@/utils/hasHydrated';
 import {
@@ -17,47 +18,10 @@ import {
   calculateElevation,
 } from '@/utils/math';
 
-import type { Map } from '@/components/atoms/Canvas';
-
-/**
- * Size is calculated by multiplying the grid size (in studs) by the amount of grid cells (usually 9)
- */
-export const maps: Map[] = [
-  {
-    image: '/arctic_airbase.jpeg',
-    name: 'Arctic Airbase',
-    size: 4041,
-  },
-  {
-    image: '/dustbowl.jpeg',
-    name: 'Dustbowl',
-    size: 3438,
-  },
-  {
-    image: '/powerplant.png',
-    name: 'Powerplant',
-    size: 3996,
-  },
-  {
-    image: '/radar_station.jpeg',
-    name: 'Radar Station',
-    size: 6372,
-  },
-  {
-    image: '/roinburg.jpeg',
-    name: 'Roinburg',
-    size: 3546,
-  },
-  {
-    image: '/sokolokva.jpeg',
-    name: 'Sokolokva',
-    size: 5004,
-  },
-];
-
 export default function Index() {
   const hasHydrated = useHasHydrated();
-  const [map, setMap] = useDataStore((s) => [s.map, s.setMap]);
+  const mapIndex = useDataStore((s) => s.mapIndex);
+  const map = maps[mapIndex];
   const [gun, target] = useDataStore((s) => [s.gun, s.target]);
   const [velocity, setVelocity] = useDataStore((s) => [
     s.velocity,
@@ -79,45 +43,39 @@ export default function Index() {
       </Head>
 
       <Page>
-        <Stack gap={2.5} width={450}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            <Canvas />
-          </Box>
+        {hasHydrated && (
+          <Stack gap={2.5} width={450}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <Canvas />
+            </Box>
 
-          <Stack
-            gap={0.5}
-            sx={{
-              '& > div': {
-                alignItems: 'center',
-                height: '35px',
-              },
-            }}
-          >
-            {hasHydrated && (
-              <>
-                <DistanceValue distance={distance} />
-                <ElevationValue
-                  gun={gun}
-                  target={target}
-                  elevation={elevation}
-                />
-                <AzimuthValue gun={gun} target={target} azimuth={azimuth} />
-                <VelocityInput velocity={velocity} setVelocity={setVelocity} />
-                <MapSelection maps={maps} setMap={setMap} />
-              </>
-            )}
+            <Stack
+              gap={0.5}
+              sx={{
+                '& > div': {
+                  alignItems: 'center',
+                  height: '35px',
+                },
+              }}
+            >
+              <DistanceValue distance={distance} />
+              <ElevationValue gun={gun} target={target} elevation={elevation} />
+              <AzimuthValue gun={gun} target={target} azimuth={azimuth} />
+              <VelocityInput velocity={velocity} setVelocity={setVelocity} />
+              <MapSelection />
+            </Stack>
+
+            <Typography>
+              Left click to set the gun position. Right click to set the target
+              position.
+            </Typography>
           </Stack>
-
-          <Typography>
-            Left click to set the gun position. Right click to set the target
-            position.
-          </Typography>
-        </Stack>
+        )}
       </Page>
     </>
   );

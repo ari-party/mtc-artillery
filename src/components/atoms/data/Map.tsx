@@ -2,22 +2,19 @@ import { Option, Select, Typography } from '@mui/joy';
 import React from 'react';
 
 import DataContainer from '../DataContainer';
+import { maps } from '@/constants';
+import { useDataStore } from '@/stores/data';
 
-import type { Map } from '../Canvas';
+export default function MapSelection() {
+  const [mapIndex, setMap] = useDataStore((s) => [s.mapIndex, s.setMapIndex]);
 
-export default function MapSelection({
-  maps,
-  setMap,
-}: {
-  maps: Map[];
-  setMap: (map: Map) => void;
-}) {
   return (
     <DataContainer>
       <Typography level="title-md">Map</Typography>
       <Select
+        value={mapIndex}
         onChange={(event, newValue) => {
-          setMap(maps[newValue as number]);
+          setMap(newValue as number);
         }}
         placeholder="Select a map..."
       >

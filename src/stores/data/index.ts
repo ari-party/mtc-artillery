@@ -2,11 +2,11 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import type { Map, Vector } from '@/components/atoms/Canvas';
+import type { Vector } from '@/components/atoms/Canvas';
 
 export interface DataStore {
-  map?: Map;
-  setMap: (map: Map) => void;
+  mapIndex: number;
+  setMapIndex: (mapIndex: number) => void;
 
   velocity: number;
   setVelocity: (v: number) => void;
@@ -21,10 +21,10 @@ export interface DataStore {
 export const useDataStore = create(
   persist(
     immer<DataStore>((set) => ({
-      map: undefined,
-      setMap(map) {
+      mapIndex: 0,
+      setMapIndex(mapIndex) {
         set((s) => {
-          s.map = map;
+          s.mapIndex = mapIndex;
         });
       },
 
