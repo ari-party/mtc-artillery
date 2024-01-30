@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 
 import { useDataStore } from '@/stores/data';
+import useHasHydrated from '@/utils/hasHydrated';
 
 import type { PropsWithChildren } from 'react';
 
@@ -40,6 +41,7 @@ function FragmentContainer({
 }
 
 export default function Canvas() {
+  const hasHydrated = useHasHydrated();
   const map = useDataStore((s) => s.map);
   const [target, gun] = useDataStore((s) => [s.target, s.gun]);
   const [setTarget, setGun] = useDataStore((s) => [s.setTarget, s.setGun]);
@@ -99,7 +101,7 @@ export default function Canvas() {
 
   return (
     <Sheet sx={{ width: 450, height: 450 }}>
-      {map ? (
+      {map && hasHydrated ? (
         <>
           <FragmentContainer zIndex={1}>
             <Image alt={map.name} src={map.image} quality={100} fill />

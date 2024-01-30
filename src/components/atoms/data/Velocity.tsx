@@ -3,14 +3,12 @@ import React from 'react';
 
 import DataContainer from '../DataContainer';
 
-import type { SetStateAction } from 'react';
-
 export default function VelocityInput({
   velocity,
   setVelocity,
 }: {
   velocity: number;
-  setVelocity: React.Dispatch<SetStateAction<number>>;
+  setVelocity: (v: number) => void;
 }) {
   return (
     <DataContainer>

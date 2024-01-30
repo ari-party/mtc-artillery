@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from '@mui/joy';
 import Head from 'next/head';
-import React, { useState } from 'react';
+import React from 'react';
 
 import Canvas from '@/components/atoms/Canvas';
 import AzimuthValue from '@/components/atoms/data/Azimuth';
@@ -10,6 +10,7 @@ import MapSelection from '@/components/atoms/data/Map';
 import VelocityInput from '@/components/atoms/data/Velocity';
 import Page from '@/components/layout/Page';
 import { useDataStore } from '@/stores/data';
+import useHasHydrated from '@/utils/hasHydrated';
 import {
   calculateAzimuth,
   calculateDistance,
@@ -55,12 +56,14 @@ export const maps: Map[] = [
 ];
 
 export default function Index() {
-  const map = useDataStore((s) => s.map);
-  const setMap = useDataStore((s) => s.setMap);
+  const hasHydrated = useHasHydrated();
+  const [map, setMap] = useDataStore((s) => [s.map, s.setMap]);
   const [gun, target] = useDataStore((s) => [s.gun, s.target]);
-  const [velocity, setVelocity] = useState(125);
+  const [velocity, setVelocity] = useDataStore((s) => [
+    s.velocity,
+    s.setVelocity,
+  ]);
 
-  // Convert canvas scale to map scale
   const distance =
     (calculateDistance(gun.x, target.x, gun.y, target.y) / 450) *
     (map?.size || 0);
@@ -95,11 +98,19 @@ export default function Index() {
               },
             }}
           >
-            <DistanceValue distance={distance} />
-            <ElevationValue gun={gun} target={target} elevation={elevation} />
-            <AzimuthValue gun={gun} target={target} azimuth={azimuth} />
-            <VelocityInput velocity={velocity} setVelocity={setVelocity} />
-            <MapSelection maps={maps} setMap={setMap} />
+            {hasHydrated && (
+              <>
+                <DistanceValue distance={distance} />
+                <ElevationValue
+                  gun={gun}
+                  target={target}
+                  elevation={elevation}
+                />
+                <AzimuthValue gun={gun} target={target} azimuth={azimuth} />
+                <VelocityInput velocity={velocity} setVelocity={setVelocity} />
+                <MapSelection maps={maps} setMap={setMap} />
+              </>
+            )}
           </Stack>
 
           <Typography>

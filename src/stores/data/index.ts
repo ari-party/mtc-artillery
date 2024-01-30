@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 import type { Map, Vector } from '@/components/atoms/Canvas';
@@ -6,6 +7,9 @@ import type { Map, Vector } from '@/components/atoms/Canvas';
 export interface DataStore {
   map?: Map;
   setMap: (map: Map) => void;
+
+  velocity: number;
+  setVelocity: (v: number) => void;
 
   target: Vector;
   setTarget: (x: number, y: number) => void;
@@ -15,26 +19,38 @@ export interface DataStore {
 }
 
 export const useDataStore = create(
-  immer<DataStore>((set) => ({
-    map: undefined,
-    setMap(map) {
-      set((s) => {
-        s.map = map;
-      });
-    },
+  persist(
+    immer<DataStore>((set) => ({
+      map: undefined,
+      setMap(map) {
+        set((s) => {
+          s.map = map;
+        });
+      },
 
-    target: { x: -1, y: -1 },
-    setTarget(x, y) {
-      set((s) => {
-        s.target = { x, y };
-      });
-    },
+      velocity: 125,
+      setVelocity(v) {
+        set((s) => {
+          s.velocity = v;
+        });
+      },
 
-    gun: { x: -1, y: -1 },
-    setGun(x, y) {
-      set((s) => {
-        s.gun = { x, y };
-      });
+      target: { x: -1, y: -1 },
+      setTarget(x, y) {
+        set((s) => {
+          s.target = { x, y };
+        });
+      },
+
+      gun: { x: -1, y: -1 },
+      setGun(x, y) {
+        set((s) => {
+          s.gun = { x, y };
+        });
+      },
+    })),
+    {
+      name: 'data',
     },
-  })),
+  ),
 );
