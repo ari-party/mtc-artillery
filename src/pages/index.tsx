@@ -55,17 +55,19 @@ export default function Index() {
               <Typography level="title-md">Azimuth</Typography>
               <Typography>
                 {todec(
-                  Math.abs(
-                    (90 +
-                      (Math.atan2(
-                        (positions.to?.y || 0) - (positions.from?.y || 0),
-                        (positions.to?.x || 0) - (positions.from?.x || 0),
-                      ) *
-                        180) /
-                        Math.PI +
-                      360) %
-                      360,
-                  ),
+                  positions.from && positions.to
+                    ? Math.abs(
+                        (90 +
+                          (Math.atan2(
+                            (positions.to?.y || 0) - (positions.from?.y || 0),
+                            (positions.to?.x || 0) - (positions.from?.x || 0),
+                          ) *
+                            180) /
+                            Math.PI +
+                          360) %
+                          360,
+                      )
+                    : 0,
                 )}
                 °
               </Typography>
