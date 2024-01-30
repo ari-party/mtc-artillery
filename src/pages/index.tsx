@@ -1,9 +1,13 @@
-import todec from '2dec';
-import { Box, Input, Option, Select, Stack, Typography } from '@mui/joy';
+import { Box, Stack, Typography } from '@mui/joy';
 import Head from 'next/head';
 import React, { useState } from 'react';
 
 import Canvas from '@/components/atoms/Canvas';
+import AzimuthValue from '@/components/atoms/data/Azimuth';
+import DistanceValue from '@/components/atoms/data/Distance';
+import ElevationValue from '@/components/atoms/data/Elevation';
+import MapSelection from '@/components/atoms/data/Map';
+import VelocityInput from '@/components/atoms/data/Velocity';
 import Page from '@/components/layout/Page';
 import { useDataStore } from '@/stores/data';
 import {
@@ -13,7 +17,6 @@ import {
 } from '@/utils/math';
 
 import type { Map } from '@/components/atoms/Canvas';
-import type { PropsWithChildren } from 'react';
 
 /**
  * Size is calculated by multiplying the grid size (in studs) by the amount of grid cells (usually 9)
@@ -51,19 +54,11 @@ export const maps: Map[] = [
   },
 ];
 
-function DataContainer({ children }: PropsWithChildren) {
-  return (
-    <Stack direction="row" justifyContent="space-between">
-      {children}
-    </Stack>
-  );
-}
-
 export default function Index() {
   const map = useDataStore((s) => s.map);
   const setMap = useDataStore((s) => s.setMap);
   const [gun, target] = useDataStore((s) => [s.gun, s.target]);
-  const [velocity, setVelocity] = useState(150);
+  const [velocity, setVelocity] = useState(125);
 
   // Convert canvas scale to map scale
   const distance =
@@ -100,64 +95,11 @@ export default function Index() {
               },
             }}
           >
-            <DataContainer>
-              <Typography level="title-md">Distance</Typography>
-              <Typography>{todec(distance)} studs</Typography>
-            </DataContainer>
-
-            <DataContainer>
-              <Typography level="title-md">Elevation</Typography>
-              <Typography>
-                {gun.x >= 0 && gun.y >= 0 && target.x >= 0 && target.y >= 0
-                  ? elevation
-                    ? `${todec(elevation)}°`
-                    : 'Too far'
-                  : '0°'}
-              </Typography>
-            </DataContainer>
-
-            <DataContainer>
-              <Typography level="title-md">Azimuth</Typography>
-              <Typography>
-                {gun.x >= 0 && gun.y >= 0 && target.x >= 0 && target.y >= 0
-                  ? todec(azimuth)
-                  : 0}
-                °
-              </Typography>
-            </DataContainer>
-
-            <DataContainer>
-              <Typography level="title-md">Velocity</Typography>
-              <Input
-                color="neutral"
-                size="sm"
-                variant="soft"
-                type="text"
-                sx={{ width: '90px' }}
-                endDecorator={<Typography level="body-sm">(m/s)</Typography>}
-                value={velocity}
-                onChange={(event) => {
-                  const { value } = event.target;
-                  if (/^[0-9]+$/.test(value)) setVelocity(Number(value));
-                }}
-              />
-            </DataContainer>
-
-            <DataContainer>
-              <Typography level="title-md">Map</Typography>
-              <Select
-                onChange={(event, newValue) => {
-                  setMap(maps[newValue as number]);
-                }}
-                placeholder="Select a map..."
-              >
-                {maps.map((item, index) => (
-                  <Option key={index} value={index}>
-                    {item.name}
-                  </Option>
-                ))}
-              </Select>
-            </DataContainer>
+            <DistanceValue distance={distance} />
+            <ElevationValue gun={gun} target={target} elevation={elevation} />
+            <AzimuthValue gun={gun} target={target} azimuth={azimuth} />
+            <VelocityInput velocity={velocity} setVelocity={setVelocity} />
+            <MapSelection maps={maps} setMap={setMap} />
           </Stack>
 
           <Typography>
