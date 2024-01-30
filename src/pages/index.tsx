@@ -12,6 +12,7 @@ export default function Index() {
   const setGridTrueSize = useDataStore((s) => s.setGridTrueSize);
   const setCellSize = useDataStore((s) => s.setCellSize);
   const canvasWidth = useDataStore((s) => s.size);
+  const positions = useDataStore((s) => s.positions);
 
   return (
     <Page>
@@ -36,10 +37,38 @@ export default function Index() {
             <Canvas />
           </Box>
 
-          <Stack gap={1}>
+          <Stack
+            gap={0.5}
+            sx={{
+              '& > div': {
+                alignItems: 'center',
+                height: '35px',
+              },
+            }}
+          >
             <Stack direction="row" justifyContent="space-between">
               <Typography level="title-md">Distance</Typography>
               <Typography>{todec(distance)} meters</Typography>
+            </Stack>
+
+            <Stack direction="row" justifyContent="space-between">
+              <Typography level="title-md">Azimuth</Typography>
+              <Typography>
+                {todec(
+                  Math.abs(
+                    (90 +
+                      (Math.atan2(
+                        (positions.to?.y || 0) - (positions.from?.y || 0),
+                        (positions.to?.x || 0) - (positions.from?.x || 0),
+                      ) *
+                        180) /
+                        Math.PI +
+                      360) %
+                      360,
+                  ),
+                )}
+                °
+              </Typography>
             </Stack>
 
             <Stack direction="row" justifyContent="space-between">
@@ -53,7 +82,7 @@ export default function Index() {
                 placeholder="0"
                 onChange={(event) => {
                   const { value } = event.target;
-                  if (/[0-9]+/.test(value)) setGridTrueSize(Number(value));
+                  if (/^[0-9]+$/.test(value)) setGridTrueSize(Number(value));
                 }}
               />
             </Stack>

@@ -8,6 +8,7 @@ export default function Notes() {
   return (
     <Box>
       <Textarea
+        placeholder="Notes"
         value={notes}
         onChange={(event) => {
           setNotes(event.target.value);

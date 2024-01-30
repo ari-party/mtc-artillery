@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
+import type { Coordinates } from '@/components/atoms/Canvas';
+
 export interface DataStore {
   size: number;
   setSize: (w: number) => void;
@@ -13,6 +15,9 @@ export interface DataStore {
 
   distance: number;
   setDistance: (n: number) => void;
+
+  positions: { from?: Coordinates; to?: Coordinates };
+  setPositions: (p1: Coordinates, p2: Coordinates) => void;
 }
 
 export const useDataStore = create(
@@ -42,6 +47,14 @@ export const useDataStore = create(
     setDistance(n) {
       set((s) => {
         s.distance = n;
+      });
+    },
+
+    positions: {},
+    setPositions(p1, p2) {
+      set((s) => {
+        s.positions.from = p1;
+        s.positions.to = p2;
       });
     },
   })),

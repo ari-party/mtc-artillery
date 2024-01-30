@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useDataStore } from '@/stores/data';
 
-interface Coordinates {
+export interface Coordinates {
   x: number;
   y: number;
 }
@@ -42,6 +42,7 @@ export default function Canvas() {
     height: s.size,
   }));
   const setTrueDistance = useDataStore((s) => s.setDistance);
+  const setPositions = useDataStore((s) => s.setPositions);
   const gridTrueSize = useDataStore((s) => s.gridTrueSize);
   const cellSize = useDataStore((s) => s.cellSize);
   const ref = useRef<null | HTMLCanvasElement>(null);
@@ -58,6 +59,32 @@ export default function Canvas() {
     const context = canvas.getContext('2d') as CanvasRenderingContext2D;
 
     drawGrid(width, height, cellSize, context);
+
+    if (
+      position1.x !== -1 &&
+      position1.y !== -1 &&
+      position2.x !== -1 &&
+      position2.y !== -1
+    ) {
+      setPositions(position1, position2);
+
+      const distance = getDistance(
+        position1.x,
+        position1.y,
+        position2.x,
+        position2.y,
+      );
+
+      const trueDistance = (distance / cellSize) * gridTrueSize;
+
+      setTrueDistance(trueDistance);
+
+      context.strokeStyle = '#96b2bf';
+      context.beginPath();
+      context.moveTo(position1.x, position1.y);
+      context.lineTo(position2.x, position2.y);
+      context.stroke();
+    }
 
     if (position1.x !== -1 && position1.y !== -1) {
       context.fillStyle = '#7cacda';
@@ -78,23 +105,6 @@ export default function Canvas() {
         markSize,
       );
     }
-    if (
-      position1.x !== -1 &&
-      position1.y !== -1 &&
-      position2.x !== -1 &&
-      position2.y !== -1
-    ) {
-      const distance = getDistance(
-        position1.x,
-        position1.y,
-        position2.x,
-        position2.y,
-      );
-
-      const trueDistance = (distance / cellSize) * gridTrueSize;
-
-      setTrueDistance(trueDistance);
-    }
   }, [
     cellSize,
     height,
@@ -102,6 +112,7 @@ export default function Canvas() {
     position1,
     position2,
     setTrueDistance,
+    setPositions,
     gridTrueSize,
   ]);
 
