@@ -20,6 +20,11 @@ export default function MapSelection() {
           setMapIndex(newValue as number);
         }}
         placeholder="Select a map..."
+        slotProps={{
+          listbox: {
+            placement: 'top-end',
+          },
+        }}
       >
         {maps.map((item, index) => (
           <Option key={index} value={index}>

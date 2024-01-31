@@ -21,6 +21,11 @@ export default function ProjectileSelection() {
           setProjectileIndex(newValue as number);
         }}
         placeholder="Select a projectile..."
+        slotProps={{
+          listbox: {
+            placement: 'top-end',
+          },
+        }}
       >
         {projectiles.map((projectile, index) => (
           <Option key={index} value={index} label={projectile.name}>
