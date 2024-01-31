@@ -7,9 +7,9 @@ import AzimuthValue from '@/components/atoms/data/Azimuth';
 import DistanceValue from '@/components/atoms/data/Distance';
 import ElevationValue from '@/components/atoms/data/Elevation';
 import MapSelection from '@/components/atoms/data/Map';
-import VelocityInput from '@/components/atoms/data/Velocity';
+import ProjectileSelection from '@/components/atoms/data/Projectile';
 import Page from '@/components/layout/Page';
-import { maps } from '@/constants';
+import { maps, projectiles } from '@/constants';
 import { useDataStore } from '@/stores/data';
 import useHasHydrated from '@/utils/hasHydrated';
 import {
@@ -22,11 +22,9 @@ export default function Index() {
   const hasHydrated = useHasHydrated();
   const mapIndex = useDataStore((s) => s.mapIndex);
   const map = maps[mapIndex];
+  const projectileIndex = useDataStore((s) => s.projectileIndex);
+  const projectile = projectiles[projectileIndex];
   const [gun, target] = useDataStore((s) => [s.gun, s.target]);
-  const [velocity, setVelocity] = useDataStore((s) => [
-    s.velocity,
-    s.setVelocity,
-  ]);
 
   const distance =
     (calculateDistance(gun.x, target.x, gun.y, target.y) / 450) *
@@ -34,7 +32,7 @@ export default function Index() {
 
   const azimuth = calculateAzimuth(gun.x, target.x, gun.y, target.y);
 
-  const elevation = calculateElevation(distance, velocity);
+  const elevation = calculateElevation(distance, projectile.velocity);
 
   return (
     <>
@@ -64,9 +62,9 @@ export default function Index() {
               }}
             >
               <DistanceValue distance={distance} />
-              <ElevationValue gun={gun} target={target} elevation={elevation} />
-              <AzimuthValue gun={gun} target={target} azimuth={azimuth} />
-              <VelocityInput velocity={velocity} setVelocity={setVelocity} />
+              <ElevationValue elevation={elevation} />
+              <AzimuthValue azimuth={azimuth} />
+              <ProjectileSelection />
               <MapSelection />
             </Stack>
 

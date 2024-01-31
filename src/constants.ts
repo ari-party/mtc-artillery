@@ -1,4 +1,8 @@
-import type { Map } from './components/atoms/Canvas';
+export interface Map {
+  image: string;
+  name: string;
+  size: number;
+}
 
 /**
  * Size is calculated by multiplying the grid size (in studs) by the amount of grid cells (usually 9)
@@ -33,5 +37,46 @@ export const maps: Map[] = [
     image: '/sokolokva.jpeg',
     name: 'Sokolokva',
     size: 5004,
+  },
+];
+
+export interface Projectile {
+  name: string;
+  velocity: number;
+}
+
+export const projectiles: Projectile[] = [
+  // RSZO-2
+  {
+    name: 'Rocketet',
+    velocity: 140,
+  },
+
+  // SAU-2
+  {
+    name: 'BR-540B',
+    velocity: 600,
+  },
+  {
+    name: '3OF25 Low Charge',
+    velocity: 125,
+  },
+  {
+    name: '3OF25',
+    velocity: 665,
+  },
+
+  // Mortar
+  {
+    name: 'Medium Charge',
+    velocity: 172,
+  },
+  {
+    name: 'Low Charge',
+    velocity: 125,
+  },
+  {
+    name: 'High Charge',
+    velocity: 225,
   },
 ];

@@ -3,18 +3,11 @@ import { Typography } from '@mui/joy';
 import React from 'react';
 
 import DataContainer from '../DataContainer';
+import { useDataStore } from '@/stores/data';
 
-import type { Vector } from '../Canvas';
+export default function AzimuthValue({ azimuth }: { azimuth: number }) {
+  const [gun, target] = useDataStore((s) => [s.gun, s.target]);
 
-export default function AzimuthValue({
-  gun,
-  target,
-  azimuth,
-}: {
-  gun: Vector;
-  target: Vector;
-  azimuth: number;
-}) {
   return (
     <DataContainer>
       <Typography level="title-md">Azimuth</Typography>

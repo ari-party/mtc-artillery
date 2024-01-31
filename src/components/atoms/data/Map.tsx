@@ -6,7 +6,10 @@ import { maps } from '@/constants';
 import { useDataStore } from '@/stores/data';
 
 export default function MapSelection() {
-  const [mapIndex, setMap] = useDataStore((s) => [s.mapIndex, s.setMapIndex]);
+  const [mapIndex, setMapIndex] = useDataStore((s) => [
+    s.mapIndex,
+    s.setMapIndex,
+  ]);
 
   return (
     <DataContainer>
@@ -14,7 +17,7 @@ export default function MapSelection() {
       <Select
         value={mapIndex}
         onChange={(event, newValue) => {
-          setMap(newValue as number);
+          setMapIndex(newValue as number);
         }}
         placeholder="Select a map..."
       >

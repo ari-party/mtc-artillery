@@ -3,18 +3,11 @@ import { Typography } from '@mui/joy';
 import React from 'react';
 
 import DataContainer from '../DataContainer';
+import { useDataStore } from '@/stores/data';
 
-import type { Vector } from '../Canvas';
+export default function ElevationValue({ elevation }: { elevation: number }) {
+  const [gun, target] = useDataStore((s) => [s.gun, s.target]);
 
-export default function ElevationValue({
-  gun,
-  target,
-  elevation,
-}: {
-  gun: Vector;
-  target: Vector;
-  elevation: number;
-}) {
   return (
     <DataContainer>
       <Typography level="title-md">Elevation</Typography>

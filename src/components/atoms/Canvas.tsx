@@ -12,12 +12,6 @@ export interface Vector {
   y: number;
 }
 
-export interface Map {
-  image: string;
-  name: string;
-  size: number;
-}
-
 function FragmentContainer({
   children,
   zIndex,

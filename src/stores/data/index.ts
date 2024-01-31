@@ -8,6 +8,9 @@ export interface DataStore {
   mapIndex: number;
   setMapIndex: (mapIndex: number) => void;
 
+  projectileIndex: number;
+  setProjectileIndex: (projectileIndex: number) => void;
+
   velocity: number;
   setVelocity: (v: number) => void;
 
@@ -25,6 +28,13 @@ export const useDataStore = create(
       setMapIndex(mapIndex) {
         set((s) => {
           s.mapIndex = mapIndex;
+        });
+      },
+
+      projectileIndex: 0,
+      setProjectileIndex(projectileIndex) {
+        set((s) => {
+          s.projectileIndex = projectileIndex;
         });
       },
 
