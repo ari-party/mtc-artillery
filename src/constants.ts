@@ -48,7 +48,7 @@ export interface Projectile {
 export const projectiles: Projectile[] = [
   // RSZO-2
   {
-    name: 'Rocketet',
+    name: 'Rocketetet',
     velocity: 150,
   },
 
