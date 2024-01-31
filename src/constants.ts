@@ -49,7 +49,7 @@ export const projectiles: Projectile[] = [
   // RSZO-2
   {
     name: 'Rocketet',
-    velocity: 140,
+    velocity: 150,
   },
 
   // SAU-2
