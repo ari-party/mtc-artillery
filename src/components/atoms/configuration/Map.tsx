@@ -16,9 +16,7 @@ export default function MapSelection() {
       <Typography level="title-md">Map</Typography>
       <Select
         value={mapIndex}
-        onChange={(event, newValue) => {
-          setMapIndex(newValue as number);
-        }}
+        onChange={(event, newValue) => setMapIndex(newValue as number)}
         placeholder="Select a map..."
         slotProps={{
           listbox: {

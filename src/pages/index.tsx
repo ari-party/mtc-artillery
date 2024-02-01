@@ -1,13 +1,14 @@
-import { Box, Stack, Typography } from '@mui/joy';
+import { Box, Divider, Stack, Typography } from '@mui/joy';
 import Head from 'next/head';
 import React from 'react';
 
 import Canvas from '@/components/atoms/Canvas';
-import AzimuthValue from '@/components/atoms/data/Azimuth';
-import DistanceValue from '@/components/atoms/data/Distance';
-import ElevationValue from '@/components/atoms/data/Elevation';
-import MapSelection from '@/components/atoms/data/Map';
-import ProjectileSelection from '@/components/atoms/data/Projectile';
+import AzimuthValue from '@/components/atoms/configuration/Azimuth';
+import DistanceValue from '@/components/atoms/configuration/Distance';
+import ElevationValue from '@/components/atoms/configuration/Elevation';
+import MapSelection from '@/components/atoms/configuration/Map';
+import Presets from '@/components/atoms/configuration/Presets';
+import ProjectileSelection from '@/components/atoms/configuration/Projectile';
 import Page from '@/components/layout/Page';
 import { maps, projectiles } from '@/constants';
 import { useDataStore } from '@/stores/data';
@@ -53,7 +54,7 @@ export default function Index() {
             </Box>
 
             <Stack
-              gap={0.5}
+              gap={1}
               sx={{
                 '& > div': {
                   alignItems: 'center',
@@ -66,6 +67,10 @@ export default function Index() {
               <AzimuthValue azimuth={azimuth} />
               <ProjectileSelection />
               <MapSelection />
+
+              <Divider />
+
+              <Presets />
             </Stack>
 
             <Typography>

@@ -17,9 +17,7 @@ export default function ProjectileSelection() {
       <Typography level="title-md">Projectile</Typography>
       <Select
         value={projectileIndex}
-        onChange={(event, newValue) => {
-          setProjectileIndex(newValue as number);
-        }}
+        onChange={(event, newValue) => setProjectileIndex(newValue as number)}
         placeholder="Select a projectile..."
         slotProps={{
           listbox: {

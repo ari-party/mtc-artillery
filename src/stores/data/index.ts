@@ -11,9 +11,6 @@ export interface DataStore {
   projectileIndex: number;
   setProjectileIndex: (projectileIndex: number) => void;
 
-  velocity: number;
-  setVelocity: (v: number) => void;
-
   target: Vector;
   setTarget: (x: number, y: number) => void;
 
@@ -35,13 +32,6 @@ export const useDataStore = create(
       setProjectileIndex(projectileIndex) {
         set((s) => {
           s.projectileIndex = projectileIndex;
-        });
-      },
-
-      velocity: 125,
-      setVelocity(v) {
-        set((s) => {
-          s.velocity = v;
         });
       },
 
