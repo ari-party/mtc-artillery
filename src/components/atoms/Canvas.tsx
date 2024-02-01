@@ -1,4 +1,6 @@
-import { Box, Sheet, Typography } from '@mui/joy';
+import Box from '@mui/joy/Box';
+import Sheet from '@mui/joy/Sheet';
+import Typography from '@mui/joy/Typography';
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 

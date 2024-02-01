@@ -1,4 +1,4 @@
-import { Stack } from '@mui/joy';
+import Stack from '@mui/joy/Stack';
 
 import type { PropsWithChildren } from 'react';
 

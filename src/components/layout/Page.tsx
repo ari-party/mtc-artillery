@@ -1,4 +1,4 @@
-import { Box } from '@mui/joy';
+import Box from '@mui/joy/Box';
 import React from 'react';
 
 import Theme from '../utils/Theme';

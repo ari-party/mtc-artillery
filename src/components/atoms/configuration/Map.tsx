@@ -1,4 +1,6 @@
-import { Option, Select, Typography } from '@mui/joy';
+import Option from '@mui/joy/Option';
+import Select from '@mui/joy/Select';
+import Typography from '@mui/joy/Typography';
 import React from 'react';
 
 import DataContainer from '../DataContainer';

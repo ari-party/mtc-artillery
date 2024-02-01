@@ -1,5 +1,5 @@
 import todec from '2dec';
-import { Typography } from '@mui/joy';
+import Typography from '@mui/joy/Typography';
 import React from 'react';
 
 import DataContainer from '../DataContainer';

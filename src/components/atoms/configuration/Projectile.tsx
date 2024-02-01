@@ -1,5 +1,8 @@
 import todec from '2dec';
-import { Option, Select, Stack, Typography } from '@mui/joy';
+import Option from '@mui/joy/Option';
+import Select from '@mui/joy/Select';
+import Stack from '@mui/joy/Stack';
+import Typography from '@mui/joy/Typography';
 import React from 'react';
 
 import DataContainer from '../DataContainer';

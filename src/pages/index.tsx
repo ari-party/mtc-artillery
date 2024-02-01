@@ -1,4 +1,7 @@
-import { Box, Divider, Stack, Typography } from '@mui/joy';
+import Box from '@mui/joy/Box';
+import Divider from '@mui/joy/Divider';
+import Stack from '@mui/joy/Stack';
+import Typography from '@mui/joy/Typography';
 import Head from 'next/head';
 import React from 'react';
 

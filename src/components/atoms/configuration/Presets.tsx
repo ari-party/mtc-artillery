@@ -1,15 +1,13 @@
-import {
-  Box,
-  Button,
-  Card,
-  Grid,
-  Input,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Stack,
-  Typography,
-} from '@mui/joy';
+import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
+import Card from '@mui/joy/Card';
+import Grid from '@mui/joy/Grid';
+import Input from '@mui/joy/Input';
+import Modal from '@mui/joy/Modal';
+import ModalClose from '@mui/joy/ModalClose';
+import ModalDialog from '@mui/joy/ModalDialog';
+import Stack from '@mui/joy/Stack';
+import Typography from '@mui/joy/Typography';
 import React, { useMemo, useRef, useState } from 'react';
 
 import CardScrollBox from '../CardScrollBox';
