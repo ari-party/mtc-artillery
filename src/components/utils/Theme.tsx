@@ -1,6 +1,5 @@
 import CssBaseline from '@mui/joy/CssBaseline';
-import { CssVarsProvider } from '@mui/joy/styles/CssVarsProvider';
-import extendTheme from '@mui/joy/styles/extendTheme';
+import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
 import React from 'react';
 
 import type { PropsWithChildren } from 'react';
