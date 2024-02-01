@@ -40,9 +40,22 @@ export const maps: Map[] = [
   },
 ];
 
+export interface Gun {
+  minimumElevation?: number;
+  maximumElevation?: number;
+}
+
+export const guns: Record<string, Gun> = {
+  mortar: {
+    minimumElevation: 27.5,
+    maximumElevation: 67.5,
+  },
+};
+
 export interface Projectile {
   name: string;
   velocity: number;
+  gun?: Gun;
 }
 
 export const projectiles: Projectile[] = [
@@ -70,13 +83,16 @@ export const projectiles: Projectile[] = [
   {
     name: 'Medium Charge',
     velocity: 172,
+    gun: guns.mortar,
   },
   {
     name: 'Low Charge',
     velocity: 125,
+    gun: guns.mortar,
   },
   {
     name: 'High Charge',
     velocity: 225,
+    gun: guns.mortar,
   },
 ];
