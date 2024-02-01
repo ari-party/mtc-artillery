@@ -24,11 +24,22 @@ import {
 
 export default function Index() {
   const hasHydrated = useHasHydrated();
-  const mapIndex = useDataStore((s) => s.mapIndex);
+  const [mapIndex, setMapIndex] = useDataStore((s) => [
+    s.mapIndex,
+    s.setMapIndex,
+  ]);
   const map = maps[mapIndex];
-  const projectileIndex = useDataStore((s) => s.projectileIndex);
+  const [projectileIndex, setProjectileIndex] = useDataStore((s) => [
+    s.projectileIndex,
+    s.setProjectileIndex,
+  ]);
   const projectile = projectiles[projectileIndex];
   const [gun, target] = useDataStore((s) => [s.gun, s.target]);
+
+  // Map index doesn't correspond to anything, so reset it
+  if (!map) return setMapIndex(0);
+  // Projectile index doesn't correspond to anything, so reset it
+  if (!projectile) return setProjectileIndex(0);
 
   const distance =
     (calculateDistance(gun.x, target.x, gun.y, target.y) / 450) *
