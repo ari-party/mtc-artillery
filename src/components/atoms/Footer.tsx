@@ -46,7 +46,7 @@ export default function Footer({ version }: { version: string }) {
 
       <Typography level="body-sm">•</Typography>
 
-      <Typography level="body-sm" component="code">
+      <Typography level="body-sm" fontFamily="monospace" component="code">
         {version}
       </Typography>
     </Row>
