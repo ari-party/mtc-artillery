@@ -57,8 +57,6 @@ export const guns: Record<string, Gun> = {
 
   mortar: {
     name: 'Mortar',
-    minimumElevation: 27.5,
-    maximumElevation: 67.5,
   },
 };
 
