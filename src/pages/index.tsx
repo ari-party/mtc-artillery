@@ -22,7 +22,19 @@ import {
   calculateElevation,
 } from '@/utils/math';
 
-export default function Index() {
+import type { GetStaticPropsResult, InferGetStaticPropsType } from 'next';
+
+export async function getStaticProps(): Promise<
+  GetStaticPropsResult<{ version: string }>
+> {
+  const version = (process.env.VERCEL_GIT_COMMIT_SHA ?? 'dev').slice(0, 9);
+
+  return { props: { version } };
+}
+
+export default function Index({
+  version,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const hasHydrated = useHasHydrated();
   const [mapIndex, setMapIndex] = useDataStore((s) => [
     s.mapIndex,
@@ -55,7 +67,7 @@ export default function Index() {
         <title>MTC Artillery</title>
       </Head>
 
-      <Page>
+      <Page version={version}>
         {hasHydrated && (
           <Stack gap={2.5} width={450}>
             <Box

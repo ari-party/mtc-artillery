@@ -6,7 +6,10 @@ import Theme from '../utils/Theme';
 
 import type { PropsWithChildren } from 'react';
 
-export default function Page({ children }: PropsWithChildren) {
+export default function Page({
+  children,
+  version,
+}: PropsWithChildren<{ version: string }>) {
   return (
     <Theme>
       <Box
@@ -24,7 +27,7 @@ export default function Page({ children }: PropsWithChildren) {
       >
         <Box>{children}</Box>
 
-        <Footer />
+        <Footer version={version} />
       </Box>
     </Theme>
   );
