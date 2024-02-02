@@ -76,8 +76,18 @@ export const projectiles: Projectile[] = [
 
   // SAU-2
   {
+    name: 'BR-540B',
+    velocity: 600,
+    gun: guns['sau-2'],
+  },
+  {
     name: '3OF25 Low Charge',
     velocity: 125,
+    gun: guns['sau-2'],
+  },
+  {
+    name: '3OF25',
+    velocity: 665,
     gun: guns['sau-2'],
   },
 
