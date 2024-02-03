@@ -3,15 +3,17 @@ import Option from '@mui/joy/Option';
 import Select from '@mui/joy/Select';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
-import React from 'react';
+import React, { useState } from 'react';
 
 import DataContainer from '../DataContainer';
+import ScrollBox from '../ScrollBox';
 import { projectiles } from '@/constants';
 import { useDataStore } from '@/stores/data';
 
 import type { Projectile } from '@/constants';
 
 export default function ProjectileSelection() {
+  const [listboxOpen, setListboxOpen] = useState<boolean>(false);
   const [projectileIndex, setProjectileIndex] = useDataStore((s) => [
     s.projectileIndex,
     s.setProjectileIndex,
@@ -37,41 +39,46 @@ export default function ProjectileSelection() {
             placement: 'top-end',
           },
         }}
+        listboxOpen={listboxOpen}
+        onListboxOpenChange={() => setListboxOpen(true)}
+        onClose={() => setListboxOpen(false)}
       >
-        {Object.keys(projectileCategories).map((key, categoryIndex) => {
-          const items = projectileCategories[key];
+        <ScrollBox dependency={listboxOpen}>
+          {Object.keys(projectileCategories).map((key, categoryIndex) => {
+            const items = projectileCategories[key];
 
-          return (
-            <React.Fragment key={categoryIndex}>
-              <Typography level="body-sm" mt={1} pl={1}>
-                {key !== 'no_name' && key}
-              </Typography>
+            return (
+              <React.Fragment key={categoryIndex}>
+                <Typography level="body-sm" mt={1} pl={1}>
+                  {key !== 'no_name' && key}
+                </Typography>
 
-              {items.map((projectile, index) => (
-                <Option
-                  key={index}
-                  value={projectiles.indexOf(projectile)}
-                  label={projectile.name}
-                >
-                  <Stack
-                    sx={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      width: '100%',
-                      gap: 2,
-                    }}
+                {items.map((projectile, index) => (
+                  <Option
+                    key={index}
+                    value={projectiles.indexOf(projectile)}
+                    label={projectile.name}
                   >
-                    <Typography>{projectile.name}</Typography>
-                    <Typography level="body-sm">
-                      {todec(projectile.velocity)} m/s
-                    </Typography>
-                  </Stack>
-                </Option>
-              ))}
-            </React.Fragment>
-          );
-        })}
+                    <Stack
+                      sx={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        width: '100%',
+                        gap: 2,
+                      }}
+                    >
+                      <Typography>{projectile.name}</Typography>
+                      <Typography level="body-sm">
+                        {todec(projectile.velocity)} m/s
+                      </Typography>
+                    </Stack>
+                  </Option>
+                ))}
+              </React.Fragment>
+            );
+          })}
+        </ScrollBox>
       </Select>
     </DataContainer>
   );

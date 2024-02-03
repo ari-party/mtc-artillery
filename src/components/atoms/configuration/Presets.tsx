@@ -10,7 +10,7 @@ import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import React, { useMemo, useRef, useState } from 'react';
 
-import CardScrollBox from '../CardScrollBox';
+import ScrollBox from '../ScrollBox';
 import DataContainer from '../DataContainer';
 import { maps, projectiles } from '@/constants';
 import { useDataStore } from '@/stores/data';
@@ -105,7 +105,7 @@ function LoadPresetModal({
 
         <Typography level="title-lg">Load preset</Typography>
 
-        <CardScrollBox
+        <ScrollBox
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -148,7 +148,7 @@ function LoadPresetModal({
               </Box>
             </Card>
           ))}
-        </CardScrollBox>
+        </ScrollBox>
 
         <Button
           color="neutral"
@@ -197,7 +197,7 @@ function DeletePresetModal({
 
         <Typography level="title-lg">Delete preset</Typography>
 
-        <CardScrollBox
+        <ScrollBox
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -240,7 +240,7 @@ function DeletePresetModal({
               </Box>
             </Card>
           ))}
-        </CardScrollBox>
+        </ScrollBox>
 
         <Button
           color="danger"
