@@ -1,5 +1,4 @@
 import Box from '@mui/joy/Box';
-import Divider from '@mui/joy/Divider';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import Head from 'next/head';
@@ -9,7 +8,6 @@ import Canvas from '@/components/atoms/Canvas';
 import AzimuthValue from '@/components/atoms/configuration/Azimuth';
 import ElevationValue from '@/components/atoms/configuration/Elevation';
 import MapSelection from '@/components/atoms/configuration/Map';
-import Presets from '@/components/atoms/configuration/Presets';
 import ProjectileSelection from '@/components/atoms/configuration/Projectile';
 import Page from '@/components/layout/Page';
 import { maps, projectiles } from '@/constants';
@@ -91,10 +89,6 @@ export default function Index({
               <AzimuthValue azimuth={azimuth} />
               <ProjectileSelection />
               <MapSelection />
-
-              <Divider />
-
-              <Presets />
             </Stack>
 
             <Typography>

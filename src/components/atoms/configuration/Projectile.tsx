@@ -19,7 +19,10 @@ export default function ProjectileSelection() {
     s.setProjectileIndex,
   ]);
 
-  const projectileCategories: Record<string, Projectile[]> = {};
+  const projectileCategories: Record<string | 'no_name', Projectile[]> = {
+    // Create key in advance so that it always will be #1
+    no_name: [],
+  };
 
   for (const projectile of projectiles) {
     const gunName = projectile.gun?.name || 'no_name';
