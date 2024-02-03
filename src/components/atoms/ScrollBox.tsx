@@ -13,11 +13,6 @@ function ScrollBox({
   const [maskImage, setMaskImage] = useState('unset');
 
   useEffect(() => {
-    console.log(
-      ref.current,
-      ref.current?.scrollHeight,
-      ref.current?.clientHeight,
-    );
     if (ref.current)
       if (ref.current.scrollHeight > ref.current.clientHeight)
         setMaskImage(
