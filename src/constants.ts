@@ -47,6 +47,10 @@ export interface Gun {
 }
 
 export const guns: Record<string, Gun> = {
+  't34-calliope': {
+    name: 'T34 Calliope',
+  },
+
   'rszo-2': {
     name: 'RSZO-2',
   },
@@ -67,6 +71,23 @@ export interface Projectile {
 }
 
 export const projectiles: Projectile[] = [
+  // T34 Calliope
+  {
+    name: 'M61',
+    velocity: 619,
+    gun: guns['t34-calliope'],
+  },
+  {
+    name: 'M48',
+    velocity: 463,
+    gun: guns['t34-calliope'],
+  },
+  {
+    name: 'M8 Rocket',
+    velocity: 260,
+    gun: guns['t34-calliope'],
+  },
+
   // RSZO-2
   {
     name: 'Rocketetet',
