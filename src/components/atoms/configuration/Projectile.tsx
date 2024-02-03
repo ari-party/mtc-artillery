@@ -25,8 +25,6 @@ export default function ProjectileSelection() {
     projectileCategories[gunName].push(projectile);
   }
 
-  console.log(projectileCategories);
-
   return (
     <DataContainer>
       <Typography level="title-md">Projectile</Typography>

@@ -7,7 +7,6 @@ import React from 'react';
 
 import Canvas from '@/components/atoms/Canvas';
 import AzimuthValue from '@/components/atoms/configuration/Azimuth';
-import DistanceValue from '@/components/atoms/configuration/Distance';
 import ElevationValue from '@/components/atoms/configuration/Elevation';
 import MapSelection from '@/components/atoms/configuration/Map';
 import Presets from '@/components/atoms/configuration/Presets';
@@ -88,7 +87,6 @@ export default function Index({
                 },
               }}
             >
-              <DistanceValue distance={distance} />
               <ElevationValue elevation={elevation} />
               <AzimuthValue azimuth={azimuth} />
               <ProjectileSelection />

@@ -26,8 +26,6 @@ export const usePresetStore = create(
         });
       },
       deletePreset(presetIndex) {
-        console.log(presetIndex);
-
         set((s) => {
           s.presets = s.presets.filter((_, index) => index !== presetIndex);
         });
