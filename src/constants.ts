@@ -29,7 +29,7 @@ export const maps: Map[] = [
     size: 6372,
   },
   {
-    image: '/roinburg.jpeg',
+    image: '/roinburg.png',
     name: 'Roinburg',
     size: 3546,
   },
