@@ -52,7 +52,7 @@ export const guns: Record<string, Gun> = {
   },
 
   rszo: {
-    name: 'RSZO-1 / RSZO-2',
+    name: 'RSZO series',
   },
 
   'sau-2': {
