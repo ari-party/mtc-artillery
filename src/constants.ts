@@ -51,8 +51,8 @@ export const guns: Record<string, Gun> = {
     name: 'T34 Calliope',
   },
 
-  'rszo-2': {
-    name: 'RSZO-2',
+  rszo: {
+    name: 'RSZO-1 / RSZO-2',
   },
 
   'sau-2': {
@@ -92,11 +92,11 @@ export const projectiles: Projectile[] = [
     gun: guns['t34-calliope'],
   },
 
-  // RSZO-2
+  // RSZO-1 & RSZO-2
   {
     name: 'Rocketetet',
     velocity: 150,
-    gun: guns['rszo-2'],
+    gun: guns.rszo,
   },
 
   // SAU-2
