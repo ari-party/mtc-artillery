@@ -1,13 +1,8 @@
-import { Typography } from '@mui/joy';
 import Box from '@mui/joy/Box';
 import Link from '@mui/joy/Link';
+import Typography from '@mui/joy/Typography';
 
-import DiscordIcon from './icons/Discord';
-import GitHubIcon from './icons/GitHub';
-
-import type { PropsWithChildren } from 'react';
-
-function Row({ children }: PropsWithChildren) {
+export default function Footer({ version }: { version: string }) {
   return (
     <Box
       sx={{
@@ -15,40 +10,21 @@ function Row({ children }: PropsWithChildren) {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 1,
+        gap: 0.5,
       }}
     >
-      {children}
-    </Box>
-  );
-}
-
-export default function Footer({ version }: { version: string }) {
-  return (
-    <Row>
-      <Row>
-        <Link
-          color="neutral"
-          href="https://github.com/ari-party/mtc-artillery"
-          target="_blank"
-        >
-          <GitHubIcon />
+      <Typography level="body-sm">
+        Made with ♥ by{' '}
+        <Link href="https://github.com/ari-party" target="_blank">
+          @ari-party
         </Link>
-
-        <Link
-          color="neutral"
-          href="https://discord.com/users/449250687868469258"
-          target="_blank"
-        >
-          <DiscordIcon />
-        </Link>
-      </Row>
+      </Typography>
 
       <Typography level="body-sm">•</Typography>
 
       <Typography level="body-sm" fontFamily="monospace" component="code">
         {version}
       </Typography>
-    </Row>
+    </Box>
   );
 }
