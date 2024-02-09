@@ -76,6 +76,10 @@ export const guns: Record<string, Gun> = {
   sturmtiger: {
     name: 'Sturmtiger',
   },
+
+  propane: {
+    name: 'Hell Cannon',
+  },
 };
 
 export interface Projectile {
@@ -148,5 +152,12 @@ export const projectiles: Projectile[] = [
     name: '38cm R Spgr.4581',
     velocity: 150,
     gun: guns.sturmtiger,
+  },
+
+  // Hell Cannon
+  {
+    name: 'Propane',
+    velocity: 130,
+    gun: guns.propane,
   },
 ];
