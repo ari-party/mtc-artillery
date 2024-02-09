@@ -19,6 +19,11 @@ export const maps: Map[] = [
     size: 3438,
   },
   {
+    image: '/normandy.png',
+    name: 'Normandy Bocage',
+    size: 5976,
+  },
+  {
     image: '/powerplant.png',
     name: 'Powerplant',
     size: 3996,
@@ -37,6 +42,11 @@ export const maps: Map[] = [
     image: '/sokolokva.jpeg',
     name: 'Sokolokva',
     size: 5004,
+  },
+  {
+    image: '/villers.png',
+    name: 'Villers-Sommeil',
+    size: 2997,
   },
 ];
 
@@ -61,6 +71,10 @@ export const guns: Record<string, Gun> = {
 
   mortar: {
     name: 'Mortar',
+  },
+
+  sturmtiger: {
+    name: 'Sturmtiger',
   },
 };
 
@@ -127,5 +141,12 @@ export const projectiles: Projectile[] = [
     name: 'High Charge',
     velocity: 225,
     gun: guns.mortar,
+  },
+
+  // Sturmtiger
+  {
+    name: '38cm R Spgr.4581',
+    velocity: 150,
+    gun: guns.sturmtiger,
   },
 ];
