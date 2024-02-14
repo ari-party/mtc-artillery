@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 
 export default function useHasHydrated() {
-  const [hasHydrated, setHasHydrated] = useState<boolean>(false);
+  const [hasHydrated, setHasHydrated] = React.useState<boolean>(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setHasHydrated(true);
   }, []);
 
