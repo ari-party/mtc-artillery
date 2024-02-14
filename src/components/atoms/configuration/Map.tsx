@@ -1,7 +1,7 @@
 import Option from '@mui/joy/Option';
 import Select from '@mui/joy/Select';
 import Typography from '@mui/joy/Typography';
-import React, { useState } from 'react';
+import React from 'react';
 
 import DataContainer from '../DataContainer';
 import ScrollBox from '../ScrollBox';
@@ -9,7 +9,7 @@ import { maps } from '@/constants';
 import { useDataStore } from '@/stores/data';
 
 export default function MapSelection() {
-  const [listboxOpen, setListboxOpen] = useState<boolean>(false);
+  const [listboxOpen, setListboxOpen] = React.useState<boolean>(false);
   const [mapIndex, setMapIndex] = useDataStore((s) => [
     s.mapIndex,
     s.setMapIndex,

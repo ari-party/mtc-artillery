@@ -3,7 +3,7 @@ import Option from '@mui/joy/Option';
 import Select from '@mui/joy/Select';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
-import React, { useState } from 'react';
+import React from 'react';
 
 import DataContainer from '../DataContainer';
 import ScrollBox from '../ScrollBox';
@@ -13,7 +13,7 @@ import { useDataStore } from '@/stores/data';
 import type { Projectile } from '@/constants';
 
 export default function ProjectileSelection() {
-  const [listboxOpen, setListboxOpen] = useState<boolean>(false);
+  const [listboxOpen, setListboxOpen] = React.useState<boolean>(false);
   const [projectileIndex, setProjectileIndex] = useDataStore((s) => [
     s.projectileIndex,
     s.setProjectileIndex,

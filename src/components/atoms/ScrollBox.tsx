@@ -1,6 +1,7 @@
 import Box from '@mui/joy/Box';
 import { mergeSx } from 'merge-sx';
-import { useRef, type PropsWithChildren, useState, useEffect } from 'react';
+import { type PropsWithChildren } from 'react';
+import React from 'react';
 
 import type { BoxProps } from '@mui/joy/Box';
 
@@ -9,10 +10,10 @@ function ScrollBox({
   dependency,
   ...props
 }: PropsWithChildren<{ dependency?: unknown } & BoxProps>) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [maskImage, setMaskImage] = useState('unset');
+  const ref = React.useRef<HTMLDivElement | null>(null);
+  const [maskImage, setMaskImage] = React.useState('unset');
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (ref.current)
       if (ref.current.scrollHeight > ref.current.clientHeight)
         setMaskImage(
