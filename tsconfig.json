@@ -28,7 +28,7 @@
   },
   "include": [
     "next-env.d.ts",
-    "next.config.cjs",
+    "next.config.js",
     "src",
     "public",
     ".next/types/**/*.ts"

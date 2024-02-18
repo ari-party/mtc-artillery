@@ -1,5 +1,4 @@
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import Script from 'next/script';
 import React from 'react';
 
 import type { AppProps } from 'next/app';
@@ -8,8 +7,11 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Component {...pageProps} />
-      <Analytics />
-      <SpeedInsights />
+      <Script
+        defer
+        src="/analytics/script.js"
+        data-website-id={process.env.NEXT_PUBLIC_ANALYTICS_ID}
+      />
     </>
   );
 }
