@@ -1,14 +1,15 @@
 /** @type {import("next").NextConfig} */
 const config = {
   async rewrites() {
-    return process.env.ANALYTICS_DOMAIN
-      ? [
-          {
-            source: '/analytics/:match*',
-            destination: `${process.env.ANALYTICS_DOMAIN}/:match*`,
-          },
-        ]
-      : [];
+    const rewrites = [];
+
+    if (process.env.ANALYTICS_DOMAIN)
+      rewrites.push({
+        source: '/analytics/:match*',
+        destination: `${process.env.ANALYTICS_DOMAIN}/:match*`,
+      });
+
+    return rewrites;
   },
 };
 
