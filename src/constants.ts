@@ -9,42 +9,42 @@ export interface Map {
  */
 export const maps: Map[] = [
   {
-    image: '/arctic_airbase.jpeg',
+    image: '/images/arctic_airbase.jpeg',
     name: 'Arctic Airbase',
     size: 4041,
   },
   {
-    image: '/dustbowl.jpeg',
+    image: '/images/dustbowl.jpeg',
     name: 'Dustbowl',
     size: 3438,
   },
   {
-    image: '/normandy.png',
+    image: '/images/normandy.png',
     name: 'Normandy Bocage',
     size: 5976,
   },
   {
-    image: '/powerplant.png',
+    image: '/images/powerplant.png',
     name: 'Powerplant',
     size: 3996,
   },
   {
-    image: '/radar_station.jpeg',
+    image: '/images/radar_station.jpeg',
     name: 'Radar Station',
     size: 6372,
   },
   {
-    image: '/roinburg.png',
+    image: '/images/roinburg.png',
     name: 'Roinburg',
     size: 3546,
   },
   {
-    image: '/sokolokva.jpeg',
+    image: '/images/sokolokva.jpeg',
     name: 'Sokolokva',
     size: 5004,
   },
   {
-    image: '/villers.png',
+    image: '/images/villers.png',
     name: 'Villers-Sommeil',
     size: 2997,
   },
