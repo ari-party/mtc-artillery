@@ -4,7 +4,7 @@ const config = {
     return process.env.ANALYTICS_DOMAIN
       ? [
           {
-            source: '/stats/:match*',
+            source: '/analytics/:match*',
             destination: `${process.env.ANALYTICS_DOMAIN}/:match*`,
           },
         ]
