@@ -21,8 +21,6 @@
     "@emotion/styled": "^11.11.0",
     "@mui/joy": "5.0.0-beta.22",
     "@mui/material": "^5.15.9",
-    "@vercel/analytics": "^1.1.2",
-    "@vercel/speed-insights": "^1.0.10",
     "immer": "^10.0.3",
     "merge-sx": "^2.0.0",
     "next": "14.0.4",
