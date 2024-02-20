@@ -3,6 +3,7 @@ import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import Head from 'next/head';
 import React from 'react';
+import { useIsClient } from 'usehooks-ts';
 
 import Page from '@/components/layout/Page';
 import AzimuthValue from '@/components/molecules/configuration/Azimuth';
@@ -12,7 +13,6 @@ import ProjectileSelection from '@/components/molecules/configuration/Projectile
 import Canvas from '@/components/organisms/Canvas';
 import { maps, projectiles } from '@/constants';
 import { useDataStore } from '@/stores/data';
-import useHasHydrated from '@/utils/hasHydrated';
 import {
   calculateAzimuth,
   calculateDistance,
@@ -32,7 +32,7 @@ export async function getStaticProps(): Promise<
 export default function Index({
   version,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const hasHydrated = useHasHydrated();
+  const isClient = useIsClient();
   const [mapIndex, setMapIndex] = useDataStore((s) => [
     s.mapIndex,
     s.setMapIndex,
@@ -65,7 +65,7 @@ export default function Index({
       </Head>
 
       <Page version={version}>
-        {hasHydrated && (
+        {isClient && (
           <Stack gap={2.5} width={450}>
             <Box
               sx={{
