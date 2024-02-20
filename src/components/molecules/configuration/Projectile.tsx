@@ -1,7 +1,12 @@
 import todec from '2dec';
 import UnfoldMore from '@mui/icons-material/UnfoldMore';
-import { Button, Tab, TabList, TabPanel, Tabs, Tooltip } from '@mui/joy';
+import Button from '@mui/joy/Button';
 import Stack from '@mui/joy/Stack';
+import Tab from '@mui/joy/Tab';
+import TabList from '@mui/joy/TabList';
+import TabPanel from '@mui/joy/TabPanel';
+import Tabs from '@mui/joy/Tabs';
+import Tooltip from '@mui/joy/Tooltip';
 import Typography from '@mui/joy/Typography';
 import React from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
