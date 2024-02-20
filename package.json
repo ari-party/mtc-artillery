@@ -19,6 +19,7 @@
     "2dec": "^1.0.5",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.10",
     "@mui/joy": "5.0.0-beta.22",
     "@mui/material": "^5.15.9",
     "immer": "^10.0.3",
