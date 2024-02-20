@@ -110,7 +110,7 @@ export const projectiles: Projectile[] = [
     gun: guns['t34-calliope'],
   },
 
-  // RSZO-1 & RSZO-2
+  // RSZO-1 series
   {
     name: 'Rocketetet',
     velocity: 150,
