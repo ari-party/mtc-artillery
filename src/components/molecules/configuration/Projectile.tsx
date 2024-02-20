@@ -4,6 +4,7 @@ import { Button, Tab, TabList, TabPanel, Tabs, Tooltip } from '@mui/joy';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import React from 'react';
+import { useOnClickOutside } from 'usehooks-ts';
 
 import DataContainer from '../../atoms/DataContainer';
 import ScrollBox from '../ScrollBox';
@@ -14,12 +15,23 @@ import type { Projectile } from '@/constants';
 
 export default function ProjectileSelection() {
   const tooltip = React.useRef<HTMLDivElement | null>(null);
+  const selectionChanged = React.useRef<number>(0);
   const [selectionOpen, setSelectionOpen] = React.useState<boolean>(false);
   const [selectionTab, setSelectionTab] = React.useState<number>(0);
   const [projectileIndex, setProjectileIndex] = useDataStore((s) => [
     s.projectileIndex,
     s.setProjectileIndex,
   ]);
+
+  function canChangeSelection() {
+    const can = selectionChanged.current + 250 < performance.now();
+
+    if (!can) return false;
+
+    selectionChanged.current = performance.now();
+
+    return true;
+  }
 
   const projectileCategories = React.useMemo(() => {
     const categories: Record<string, Projectile[]> = {
@@ -36,6 +48,14 @@ export default function ProjectileSelection() {
     return categories;
   }, []);
 
+  useOnClickOutside(
+    tooltip,
+    () => {
+      if (selectionOpen && canChangeSelection()) setSelectionOpen(false);
+    },
+    'mouseup',
+  );
+
   React.useEffect(
     () =>
       setSelectionTab(
@@ -48,34 +68,16 @@ export default function ProjectileSelection() {
     [setSelectionTab, projectileCategories, projectileIndex],
   );
 
-  React.useEffect(() => {
-    if (!tooltip.current) return;
-    const element = tooltip.current;
-
-    function mouseDown(this: Document, event: MouseEvent) {
-      const contains = element.contains(event.target as Node);
-      if (!contains) setSelectionOpen(false);
-    }
-
-    document.addEventListener('mousedown', mouseDown);
-
-    return () => document.removeEventListener('mousedown', mouseDown);
-  });
-
   return (
     <DataContainer>
       <Typography level="title-md">Projectile</Typography>
 
       <Tooltip
         slotProps={{ root: { ref: tooltip, open: selectionOpen } }}
-        onClose={() => setSelectionOpen(false)}
         placement="top-end"
         size="lg"
         variant="outlined"
         keepMounted
-        disableHoverListener
-        disableTouchListener
-        disableFocusListener
         sx={(theme) => ({
           backgroundColor: theme.palette.background.body,
           paddingLeft: 0,
@@ -163,7 +165,9 @@ export default function ProjectileSelection() {
         <Button
           variant="outlined"
           color="neutral"
-          onClick={() => setSelectionOpen(!selectionOpen)}
+          onClick={() => {
+            if (!selectionOpen && canChangeSelection()) setSelectionOpen(true);
+          }}
           sx={(theme) => ({
             backgroundColor: theme.palette.background.surface,
             paddingInline: '0.75rem',

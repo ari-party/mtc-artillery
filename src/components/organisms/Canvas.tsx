@@ -100,7 +100,13 @@ export default function Canvas() {
       {map ? (
         <>
           <FragmentContainer zIndex={1}>
-            <Image alt={map.name} src={map.image} quality={100} priority fill />
+            <Image
+              alt={map.name}
+              src={map.image}
+              priority
+              width={450}
+              height={450}
+            />
           </FragmentContainer>
 
           <FragmentContainer zIndex={2}>
