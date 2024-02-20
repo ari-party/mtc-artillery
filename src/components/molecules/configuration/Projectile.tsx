@@ -13,7 +13,8 @@ import { useDataStore } from '@/stores/data';
 import type { Projectile } from '@/constants';
 
 export default function ProjectileSelection() {
-  const [selectionOpen, setSelectionOpen] = React.useState<boolean>(true);
+  const tooltip = React.useRef<HTMLDivElement | null>(null);
+  const [selectionOpen, setSelectionOpen] = React.useState<boolean>(false);
   const [selectionTab, setSelectionTab] = React.useState<number>(0);
   const [projectileIndex, setProjectileIndex] = useDataStore((s) => [
     s.projectileIndex,
@@ -47,12 +48,26 @@ export default function ProjectileSelection() {
     [setSelectionTab, projectileCategories, projectileIndex],
   );
 
+  React.useEffect(() => {
+    if (!tooltip.current) return;
+    const element = tooltip.current;
+
+    function mouseDown(this: Document, event: MouseEvent) {
+      const contains = element.contains(event.target as Node);
+      if (!contains) setSelectionOpen(false);
+    }
+
+    document.addEventListener('mousedown', mouseDown);
+
+    return () => document.removeEventListener('mousedown', mouseDown);
+  });
+
   return (
     <DataContainer>
       <Typography level="title-md">Projectile</Typography>
 
       <Tooltip
-        open={selectionOpen}
+        slotProps={{ root: { ref: tooltip, open: selectionOpen } }}
         onClose={() => setSelectionOpen(false)}
         placement="top-end"
         size="lg"
