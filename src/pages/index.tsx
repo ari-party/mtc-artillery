@@ -4,11 +4,11 @@ import Typography from '@mui/joy/Typography';
 import Head from 'next/head';
 import React from 'react';
 
-import Canvas from '@/components/atoms/Canvas';
-import AzimuthValue from '@/components/atoms/configuration/Azimuth';
-import ElevationValue from '@/components/atoms/configuration/Elevation';
-import MapSelection from '@/components/atoms/configuration/Map';
-import ProjectileSelection from '@/components/atoms/configuration/Projectile';
+import Canvas from '@/components/organisms/Canvas';
+import AzimuthValue from '@/components/molecules/configuration/Azimuth';
+import ElevationValue from '@/components/molecules/configuration/Elevation';
+import MapSelection from '@/components/molecules/configuration/Map';
+import ProjectileSelection from '@/components/molecules/configuration/Projectile';
 import Page from '@/components/layout/Page';
 import { maps, projectiles } from '@/constants';
 import { useDataStore } from '@/stores/data';

@@ -7,6 +7,7 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Component {...pageProps} />
+
       <Script
         defer
         src={new URL(

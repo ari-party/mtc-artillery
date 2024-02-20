@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import type { Vector } from '@/components/atoms/Canvas';
+import type { Vector } from '@/components/organisms/Canvas';
 
 export interface DataStore {
   mapIndex: number;

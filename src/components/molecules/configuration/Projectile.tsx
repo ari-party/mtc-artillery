@@ -5,7 +5,7 @@ import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import React from 'react';
 
-import DataContainer from '../DataContainer';
+import DataContainer from '../../atoms/DataContainer';
 import ScrollBox from '../ScrollBox';
 import { projectiles } from '@/constants';
 import { useDataStore } from '@/stores/data';

@@ -1,7 +1,7 @@
 import Box from '@mui/joy/Box';
 import React from 'react';
 
-import Footer from '../atoms/Footer';
+import Footer from '../molecules/Footer';
 import Theme from '../utils/Theme';
 
 import type { PropsWithChildren } from 'react';

@@ -2,7 +2,7 @@ import todec from '2dec';
 import Typography from '@mui/joy/Typography';
 import React from 'react';
 
-import DataContainer from '../DataContainer';
+import DataContainer from '../../atoms/DataContainer';
 import { projectiles } from '@/constants';
 import { useDataStore } from '@/stores/data';
 
