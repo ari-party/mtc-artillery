@@ -4,12 +4,12 @@ import Typography from '@mui/joy/Typography';
 import Head from 'next/head';
 import React from 'react';
 
-import Canvas from '@/components/organisms/Canvas';
+import Page from '@/components/layout/Page';
 import AzimuthValue from '@/components/molecules/configuration/Azimuth';
 import ElevationValue from '@/components/molecules/configuration/Elevation';
 import MapSelection from '@/components/molecules/configuration/Map';
 import ProjectileSelection from '@/components/molecules/configuration/Projectile';
-import Page from '@/components/layout/Page';
+import Canvas from '@/components/organisms/Canvas';
 import { maps, projectiles } from '@/constants';
 import { useDataStore } from '@/stores/data';
 import useHasHydrated from '@/utils/hasHydrated';
