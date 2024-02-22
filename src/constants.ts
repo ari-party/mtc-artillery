@@ -69,6 +69,10 @@ export const guns: Record<string, Gun> = {
     name: 'SAU-2',
   },
 
+  grad: {
+    name: 'BM-21 Grad',
+  },
+
   mortar: {
     name: 'Mortar',
   },
@@ -83,6 +87,10 @@ export const guns: Record<string, Gun> = {
 
   propane: {
     name: 'Hell Cannon',
+  },
+
+  spg9: {
+    name: 'SPG9',
   },
 };
 
@@ -134,6 +142,13 @@ export const projectiles: Projectile[] = [
     gun: guns['sau-2'],
   },
 
+  // BM-21 Grad
+  {
+    name: '9M22/M21 HE-Frag',
+    velocity: 150,
+    gun: guns.grad,
+  },
+
   // Mortar
   {
     name: 'Medium Charge',
@@ -170,5 +185,17 @@ export const projectiles: Projectile[] = [
     name: 'Propane',
     velocity: 130,
     gun: guns.propane,
+  },
+
+  // SPG9
+  {
+    name: 'PG-9',
+    velocity: 435,
+    gun: guns.spg,
+  },
+  {
+    name: 'OG-9',
+    velocity: 316,
+    gun: guns.spg,
   },
 ];
