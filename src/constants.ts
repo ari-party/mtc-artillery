@@ -89,7 +89,7 @@ export const guns: Record<string, Gun> = {
     name: 'Hell Cannon',
   },
 
-  spg9: {
+  spg: {
     name: 'SPG9',
   },
 };
