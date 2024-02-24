@@ -1,8 +1,8 @@
 // Gravity
-const G = 9.8;
+const G = 9.81;
 
 export function calculateElevation(d: number, v: number): number {
-  const angle = 0.5 * Math.asin((d * 0.35 * G * 1.8) / v ** 2);
+  const angle = Math.asin((d * 0.35 * G * 1.8) / v ** 2) / 2;
   return (angle * 180) / Math.PI;
 }
 

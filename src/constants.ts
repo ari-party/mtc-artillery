@@ -52,8 +52,6 @@ export const maps: Map[] = [
 
 export interface Gun {
   name?: string;
-  minimumElevation?: number;
-  maximumElevation?: number;
 }
 
 export const guns: Record<string, Gun> = {
