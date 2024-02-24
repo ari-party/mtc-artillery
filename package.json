@@ -28,6 +28,7 @@
     "react": "^18.2.0",
     "react-dom": "^18",
     "sharp": "^0.33.2",
+    "strapi-rest": "^0.1.3",
     "usehooks-ts": "^2.14.0",
     "zustand": "^4.4.7"
   },
