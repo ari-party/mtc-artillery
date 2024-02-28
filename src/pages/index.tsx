@@ -1,19 +1,21 @@
 import Box from '@mui/joy/Box';
-import Card from '@mui/joy/Card';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import Head from 'next/head';
+import NextLink from 'next/link';
 import React from 'react';
 import { getEntry } from 'strapi-rest';
 import { useIsClient } from 'usehooks-ts';
 
+import BMACIcon from '@/components/atoms/icons/BMAC';
+import GitHubIcon from '@/components/atoms/icons/GitHub';
 import Page from '@/components/layout/Page';
 import AzimuthValue from '@/components/molecules/configuration/Azimuth';
 import ElevationValue from '@/components/molecules/configuration/Elevation';
 import MapSelection from '@/components/molecules/configuration/Map';
 import ProjectileSelection from '@/components/molecules/configuration/Projectile';
-import ScrollBox from '@/components/molecules/ScrollBox';
 import Canvas from '@/components/organisms/Canvas';
+import Motd from '@/components/organisms/Motd';
 import { maps, projectiles } from '@/constants';
 import { useDataStore } from '@/stores/data';
 import {
@@ -83,38 +85,18 @@ export default function Index({
         <title>MTC Artillery</title>
       </Head>
 
-      <Page version={version}>
-        {motd && (
-          <Card
-            role="alert"
-            sx={{
-              marginBottom: 2,
-              paddingX: 2,
-              maxHeight: '75px',
-              overflow: 'auto',
-              width: '450px',
-            }}
-            size="sm"
-            variant="soft"
-            orientation="horizontal"
-          >
-            <ScrollBox dependency={motd}>
-              <Typography
-                sx={{
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'wrap',
-                  overflowWrap: 'break-word',
-                  height: 'fit-content',
-                }}
-              >
-                {motd}
-              </Typography>
-            </ScrollBox>
-          </Card>
-        )}
-
+      <Page>
         {isClient && (
-          <Stack gap={2.5} width={450}>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: {
+                sm: null,
+                md: 'repeat(2, 1fr)',
+              },
+              gap: 4,
+            }}
+          >
             <Box
               sx={{
                 display: 'flex',
@@ -124,26 +106,70 @@ export default function Index({
               <Canvas />
             </Box>
 
-            <Stack
-              gap={1}
-              sx={{
-                '& > div': {
-                  alignItems: 'center',
-                  height: '35px',
-                },
-              }}
-            >
-              <ElevationValue elevation={elevation} />
-              <AzimuthValue azimuth={azimuth} />
-              <ProjectileSelection />
-              <MapSelection />
-            </Stack>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+              {motd && <Motd message={motd} />}
 
-            <Typography>
-              Left click to set the gun position. Right click to set the target
-              position.
-            </Typography>
-          </Stack>
+              <Stack
+                spacing={1}
+                sx={{
+                  '& > div': {
+                    alignItems: 'center',
+                    height: '35px',
+                  },
+                }}
+              >
+                <ElevationValue elevation={elevation} />
+                <AzimuthValue azimuth={azimuth} />
+                <ProjectileSelection />
+                <MapSelection />
+              </Stack>
+
+              <Typography>
+                Left click to set the gun position. Right click to set the
+                target position.
+              </Typography>
+
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{
+                  marginTop: 'auto',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Stack
+                  direction="row"
+                  spacing={0.5}
+                  sx={{ alignItems: 'center' }}
+                >
+                  <NextLink
+                    href="https://github.com/ari-party/mtc-artillery"
+                    target="_blank"
+                    style={{ display: 'flex', alignItems: 'center' }}
+                  >
+                    <GitHubIcon />
+                  </NextLink>
+
+                  <NextLink
+                    href="https://www.buymeacoffee.com/valk"
+                    target="_blank"
+                    style={{ display: 'flex', alignItems: 'center' }}
+                  >
+                    <BMACIcon />
+                  </NextLink>
+                </Stack>
+
+                <Typography
+                  level="body-sm"
+                  component="code"
+                  sx={(theme) => ({ fontFamily: theme.fontFamily.code })}
+                >
+                  {version}
+                </Typography>
+              </Stack>
+            </Box>
+          </Box>
         )}
       </Page>
     </>
