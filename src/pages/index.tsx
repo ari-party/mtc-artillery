@@ -114,7 +114,7 @@ export default function Index({
                 sx={{
                   '& > div': {
                     alignItems: 'center',
-                    height: '35px',
+                    height: 35,
                   },
                 }}
               >

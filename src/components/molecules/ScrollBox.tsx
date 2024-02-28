@@ -26,7 +26,7 @@ function ScrollBox({
       ref={ref}
       {...props}
       sx={mergeSx(props.sx, {
-        maxHeight: '250px',
+        maxHeight: 250,
         overflow: 'scroll',
         maskImage,
         '&::-webkit-scrollbar': {

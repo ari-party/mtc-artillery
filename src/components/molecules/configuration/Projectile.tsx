@@ -92,7 +92,7 @@ export default function ProjectileSelection() {
           <Tabs
             orientation="vertical"
             size="sm"
-            sx={{ backgroundColor: 'unset', maxHeight: '200px' }}
+            sx={{ backgroundColor: 'unset', maxHeight: 200 }}
             value={selectionTab}
             onChange={(event, newTab) => setSelectionTab(newTab as number)}
           >
@@ -176,7 +176,7 @@ export default function ProjectileSelection() {
           sx={(theme) => ({
             backgroundColor: theme.palette.background.surface,
             paddingInline: '0.75rem',
-            fontSize: '16px',
+            fontSize: 16,
             fontWeight: 400,
           })}
           endDecorator={
