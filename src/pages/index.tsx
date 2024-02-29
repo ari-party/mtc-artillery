@@ -92,7 +92,7 @@ export default function Index({
               display: 'grid',
               gridTemplateColumns: {
                 sm: null,
-                md: 'repeat(2, 1fr)',
+                md: 'min-content 1fr',
               },
               gap: 4,
             }}
