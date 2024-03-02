@@ -11,6 +11,7 @@ import BMACIcon from '@/components/atoms/icons/BMAC';
 import GitHubIcon from '@/components/atoms/icons/GitHub';
 import Page from '@/components/layout/Page';
 import AzimuthValue from '@/components/molecules/configuration/Azimuth';
+import DistanceValue from '@/components/molecules/configuration/Distance';
 import ElevationValue from '@/components/molecules/configuration/Elevation';
 import MapSelection from '@/components/molecules/configuration/Map';
 import ProjectileSelection from '@/components/molecules/configuration/Projectile';
@@ -118,6 +119,7 @@ export default function Index({
                   },
                 }}
               >
+                <DistanceValue distance={distance / 3.571} />
                 <ElevationValue elevation={elevation} />
                 <AzimuthValue azimuth={azimuth} />
                 <ProjectileSelection />
