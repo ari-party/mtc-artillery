@@ -6,7 +6,7 @@ import DataContainer from '../../atoms/DataContainer';
 import { useDataStore } from '@/stores/data';
 
 export default function AzimuthValue({ azimuth }: { azimuth: number }) {
-  const [gun, target] = useDataStore((s) => [s.getGun, s.getTarget]);
+  const [gun, target] = useDataStore((s) => [s.getGun(), s.getTarget()]);
 
   return (
     <DataContainer>
