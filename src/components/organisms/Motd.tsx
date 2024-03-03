@@ -8,7 +8,6 @@ export default function Motd({ message }: { message: string }) {
     <Card
       role="alert"
       sx={{
-        marginBottom: 2,
         paddingX: 2,
         maxHeight: 75,
         overflow: 'auto',
