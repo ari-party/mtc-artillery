@@ -119,7 +119,7 @@ export default function Index({
                   },
                 }}
               >
-                <DistanceValue distance={distance / 3.571} />
+                <DistanceValue distance={distance / 3} />
                 <ElevationValue elevation={elevation} />
                 <AzimuthValue azimuth={azimuth} />
                 <ProjectileSelection />
