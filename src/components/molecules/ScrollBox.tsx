@@ -24,6 +24,7 @@ function ScrollBox({
           setMaskImage(
             'linear-gradient(rgb(0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%)',
           );
+        else setMaskImage('unset');
     }
 
     update();
@@ -50,6 +51,9 @@ function ScrollBox({
       )}
       onScroll={(event) => {
         const target = event.target as HTMLDivElement;
+
+        if (!(target.scrollHeight > target.clientHeight))
+          return setMaskImage('unset');
 
         const percentage =
           (target.scrollTop / (target.scrollHeight - target.clientHeight)) *
