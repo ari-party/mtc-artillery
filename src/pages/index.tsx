@@ -23,6 +23,7 @@ import {
   calculateAzimuth,
   calculateDistance,
   calculateElevation,
+  studsToMeters,
 } from '@/utils/math';
 
 import type { GetStaticPropsResult, InferGetStaticPropsType } from 'next';
@@ -119,7 +120,7 @@ export default function Index({
                   },
                 }}
               >
-                <DistanceValue distance={distance / 2.8} />
+                <DistanceValue distance={studsToMeters(distance)} />
                 <ElevationValue elevation={elevation} />
                 <AzimuthValue azimuth={azimuth} />
                 <ProjectileSelection />

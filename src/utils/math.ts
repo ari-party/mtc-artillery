@@ -26,3 +26,7 @@ export function calculateDistance(
 ): number {
   return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
 }
+
+export function studsToMeters(s: number): number {
+  return (1.8 * s) / 5;
+}
