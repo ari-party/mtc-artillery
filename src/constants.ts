@@ -79,10 +79,6 @@ export const guns: Record<string, Gun> = {
     name: 'Sturmtiger',
   },
 
-  bmp100: {
-    name: 'BMP-100',
-  },
-
   panzerwerfer: {
     name: 'Panzerwerfer-15',
   },
@@ -169,13 +165,6 @@ export const projectiles: Projectile[] = [
     name: '38cm R Spgr.4581',
     velocity: 150,
     gun: guns.sturmtiger,
-  },
-
-  // BMP-100
-  {
-    name: '30F70',
-    velocity: 355,
-    gun: guns.bmp100,
   },
 
   // Panzerwerfer-15
