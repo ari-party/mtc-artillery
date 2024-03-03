@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 
 import { maps } from '@/constants';
+import { useCanvasStore } from '@/stores/canvas';
 import { useDataStore } from '@/stores/data';
 
 import type { PropsWithChildren } from 'react';
@@ -18,6 +19,8 @@ function FragmentContainer({
   children,
   zIndex,
 }: PropsWithChildren<{ zIndex: number }>) {
+  const [width, height] = useCanvasStore((s) => [s.width, s.height]);
+
   return (
     <Box
       sx={{
@@ -25,8 +28,8 @@ function FragmentContainer({
         top: 0,
         left: 0,
 
-        width: 450,
-        height: 450,
+        width,
+        height,
 
         zIndex,
       }}
@@ -37,9 +40,10 @@ function FragmentContainer({
 }
 
 export default function Canvas() {
+  const [width, height] = useCanvasStore((s) => [s.width, s.height]);
   const mapIndex = useDataStore((s) => s.mapIndex);
   const map = maps[mapIndex];
-  const [target, gun] = useDataStore((s) => [s.target, s.gun]);
+  const [target, gun] = useDataStore((s) => [s.getTarget(), s.getGun()]);
   const [setTarget, setGun] = useDataStore((s) => [s.setTarget, s.setGun]);
   const ref = useRef<HTMLCanvasElement | null>(null);
 
@@ -48,7 +52,7 @@ export default function Canvas() {
     if (!canvas) return;
     const context = canvas.getContext('2d') as CanvasRenderingContext2D;
 
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.clearRect(0, 0, width, height);
 
     const markerRadius = 8;
     const gunValid = gun.x >= 0 && gun.y >= 0;
@@ -57,33 +61,39 @@ export default function Canvas() {
     if (gunValid && targetValid) {
       context.strokeStyle = '#FFF';
       context.beginPath();
-      context.moveTo(gun.x, gun.y);
-      context.lineTo(target.x, target.y);
+      context.moveTo(gun.x * width, gun.y * height);
+      context.lineTo(target.x * width, target.y * height);
       context.stroke();
     }
 
     if (gunValid) {
       context.fillStyle = '#52a8ff';
       context.beginPath();
-      context.arc(gun.x, gun.y, markerRadius, 0, 2 * Math.PI);
+      context.arc(gun.x * width, gun.y * height, markerRadius, 0, 2 * Math.PI);
       context.fill();
     }
 
     if (targetValid) {
       context.fillStyle = '#ff6666';
       context.beginPath();
-      context.arc(target.x, target.y, markerRadius, 0, 2 * Math.PI);
+      context.arc(
+        target.x * width,
+        target.y * height,
+        markerRadius,
+        0,
+        2 * Math.PI,
+      );
       context.fill();
     }
 
     function clickListener(event: MouseEvent) {
-      setGun(event.offsetX, event.offsetY);
+      setGun(event.offsetX / width, event.offsetY / height);
     }
 
     function contextMenuClickListener(event: MouseEvent) {
       event.preventDefault();
 
-      setTarget(event.offsetX, event.offsetY);
+      setTarget(event.offsetX / width, event.offsetY / height);
     }
 
     canvas.addEventListener('click', clickListener);
@@ -96,7 +106,7 @@ export default function Canvas() {
   });
 
   return (
-    <Sheet sx={{ width: 450, height: 450 }}>
+    <Sheet sx={{ width, height }}>
       {map ? (
         <>
           <FragmentContainer zIndex={1}>
@@ -104,13 +114,13 @@ export default function Canvas() {
               alt={map.name}
               src={map.image}
               priority
-              width={450}
-              height={450}
+              height={height}
+              width={width}
             />
           </FragmentContainer>
 
           <FragmentContainer zIndex={2}>
-            <canvas ref={ref} height={450} width={450} />
+            <canvas ref={ref} height={height} width={width} />
           </FragmentContainer>
         </>
       ) : (

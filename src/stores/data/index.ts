@@ -1,8 +1,15 @@
+/* eslint-disable no-underscore-dangle */
+
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
 import type { Vector } from '@/components/organisms/Canvas';
+
+interface StringVector {
+  x: string;
+  y: string;
+}
 
 export interface DataStore {
   mapIndex: number;
@@ -11,10 +18,12 @@ export interface DataStore {
   projectileIndex: number;
   setProjectileIndex: (projectileIndex: number) => void;
 
-  target: Vector;
+  target: StringVector;
+  getTarget: () => Vector;
   setTarget: (x: number, y: number) => void;
 
-  gun: Vector;
+  gun: StringVector;
+  getGun: () => Vector;
   setGun: (x: number, y: number) => void;
 }
 
@@ -35,17 +44,35 @@ export const useDataStore = create(
         });
       },
 
-      target: { x: -1, y: -1 },
+      target: { x: '-1', y: '-1' },
+      getTarget() {
+        return {
+          x: Number(this.target.x),
+          y: Number(this.target.y),
+        };
+      },
       setTarget(x, y) {
         set((s) => {
-          s.target = { x, y };
+          s.target = {
+            x: String(x),
+            y: String(y),
+          };
         });
       },
 
-      gun: { x: -1, y: -1 },
+      gun: { x: '-1', y: '-1' },
+      getGun() {
+        return {
+          x: Number(this.gun.x),
+          y: Number(this.gun.y),
+        };
+      },
       setGun(x, y) {
         set((s) => {
-          s.gun = { x, y };
+          s.gun = {
+            x: String(x),
+            y: String(y),
+          };
         });
       },
     })),

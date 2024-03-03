@@ -11,38 +11,26 @@ export default function ElevationValue({
 }: {
   elevation: number;
 }) {
-  const [gun, target] = useDataStore((s) => [s.gun, s.target]);
+  const [gun, target] = useDataStore((s) => [s.getGun(), s.getTarget()]);
 
   const valid = gun.x >= 0 && gun.y >= 0 && target.x >= 0 && target.y >= 0;
 
   // Yeah it's just that...
   const highArcElevation = 90 - lowArcElevation;
 
-  const lowArcPossible = lowArcElevation >= 0 && lowArcElevation <= 45;
-
-  const highArcPossible = highArcElevation >= 45 && highArcElevation <= 90;
-
   return (
     <DataContainer>
       <Typography level="title-md">Elevation</Typography>
       <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-        {valid && (lowArcElevation || highArcElevation) ? (
+        {valid && lowArcElevation ? (
           <>
-            {lowArcPossible && (
-              <Typography>{todec(lowArcElevation)}°</Typography>
-            )}
+            <Typography>{todec(lowArcElevation)}°</Typography>
 
-            {highArcPossible && (
-              <>
-                {lowArcPossible && (
-                  <Typography component="b" level="body-sm">
-                    or
-                  </Typography>
-                )}
+            <Typography component="b" level="body-sm">
+              or
+            </Typography>
 
-                <Typography>{todec(highArcElevation)}°</Typography>
-              </>
-            )}
+            <Typography>{todec(highArcElevation)}°</Typography>
           </>
         ) : (
           <Typography>Impossible</Typography>

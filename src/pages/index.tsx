@@ -2,20 +2,18 @@ import Box from '@mui/joy/Box';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import Head from 'next/head';
-import NextLink from 'next/link';
 import React from 'react';
 import { getEntry } from 'strapi-rest';
 import { useIsClient } from 'usehooks-ts';
 
-import BMACIcon from '@/components/atoms/icons/BMAC';
-import GitHubIcon from '@/components/atoms/icons/GitHub';
 import Page from '@/components/layout/Page';
+import CanvasContainer from '@/components/molecules/CanvasContainer';
 import AzimuthValue from '@/components/molecules/configuration/Azimuth';
 import DistanceValue from '@/components/molecules/configuration/Distance';
 import ElevationValue from '@/components/molecules/configuration/Elevation';
 import MapSelection from '@/components/molecules/configuration/Map';
 import ProjectileSelection from '@/components/molecules/configuration/Projectile';
-import Canvas from '@/components/organisms/Canvas';
+import Footer from '@/components/organisms/Footer';
 import Motd from '@/components/organisms/Motd';
 import { maps, projectiles } from '@/constants';
 import { useDataStore } from '@/stores/data';
@@ -43,7 +41,6 @@ export async function getStaticProps(): Promise<
 
       if (entry.attributes.text) motd = entry.attributes.text as string;
     } catch (_) {
-      /* empty */
       // Don't handle error
     }
   }
@@ -66,7 +63,7 @@ export default function Index({
     s.setProjectileIndex,
   ]);
   const projectile = projectiles[projectileIndex];
-  const [gun, target] = useDataStore((s) => [s.gun, s.target]);
+  const [gun, target] = useDataStore((s) => [s.getGun(), s.getTarget()]);
 
   // Map index doesn't correspond to anything, so reset it
   if (!map) return setMapIndex(0);
@@ -74,8 +71,7 @@ export default function Index({
   if (!projectile) return setProjectileIndex(0);
 
   const distance =
-    (calculateDistance(gun.x, target.x, gun.y, target.y) / 450) *
-    (map?.size || 0);
+    calculateDistance(gun.x, target.x, gun.y, target.y) * (map?.size || 0);
 
   const azimuth = calculateAzimuth(gun.x, target.x, gun.y, target.y);
 
@@ -94,19 +90,12 @@ export default function Index({
               display: 'grid',
               gridTemplateColumns: {
                 sm: null,
-                md: 'min-content 1fr',
+                md: '1fr 1fr',
               },
               gap: 4,
             }}
           >
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              <Canvas />
-            </Box>
+            <CanvasContainer />
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
               {motd && <Motd message={motd} />}
@@ -132,45 +121,7 @@ export default function Index({
                 target position.
               </Typography>
 
-              <Stack
-                direction="row"
-                spacing={1}
-                sx={{
-                  marginTop: 'auto',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Stack
-                  direction="row"
-                  spacing={0.5}
-                  sx={{ alignItems: 'center' }}
-                >
-                  <NextLink
-                    href="https://github.com/ari-party/mtc-artillery"
-                    target="_blank"
-                    style={{ display: 'flex', alignItems: 'center' }}
-                  >
-                    <GitHubIcon />
-                  </NextLink>
-
-                  <NextLink
-                    href="https://www.buymeacoffee.com/valk"
-                    target="_blank"
-                    style={{ display: 'flex', alignItems: 'center' }}
-                  >
-                    <BMACIcon />
-                  </NextLink>
-                </Stack>
-
-                <Typography
-                  level="body-sm"
-                  component="code"
-                  sx={(theme) => ({ fontFamily: theme.fontFamily.code })}
-                >
-                  {version}
-                </Typography>
-              </Stack>
+              <Footer version={version} />
             </Box>
           </Box>
         )}

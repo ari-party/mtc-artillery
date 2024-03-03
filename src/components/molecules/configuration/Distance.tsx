@@ -8,7 +8,9 @@ export default function DistanceValue({ distance }: { distance: number }) {
   return (
     <DataContainer>
       <Typography level="title-md">Distance</Typography>
-      <Typography>{todec(distance)} meters</Typography>
+      <Typography>
+        {todec(distance)} {distance >= 1 && distance < 2 ? 'meter' : 'meters'}
+      </Typography>
     </DataContainer>
   );
 }
