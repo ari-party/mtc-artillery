@@ -14,7 +14,7 @@ export default function Page({ children }: PropsWithChildren) {
           justifyContent: 'center',
           alignItems: 'center',
 
-          padding: 2,
+          padding: 4,
           minHeight: '100svh',
           width: '100svw',
         }}
