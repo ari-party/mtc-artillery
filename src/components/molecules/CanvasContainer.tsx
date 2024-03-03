@@ -23,7 +23,9 @@ export default function CanvasContainer() {
 
     updateDimensions();
 
-    new ResizeObserver(updateDimensions).observe(containerRef.current);
+    const observer = new ResizeObserver(updateDimensions);
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
   });
 
   return (

@@ -10,29 +10,44 @@ function ScrollBox({
   dependency,
   ...props
 }: PropsWithChildren<{ dependency?: unknown } & BoxProps>) {
-  const ref = React.useRef<HTMLDivElement | null>(null);
+  const scrollBoxRef = React.useRef<HTMLDivElement | null>(null);
   const [maskImage, setMaskImage] = React.useState('unset');
 
   React.useEffect(() => {
-    if (ref.current)
-      if (ref.current.scrollHeight > ref.current.clientHeight)
-        setMaskImage(
-          'linear-gradient(rgb(0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%)',
-        );
+    if (!scrollBoxRef.current) return;
+
+    function update() {
+      if (scrollBoxRef.current)
+        if (
+          scrollBoxRef.current.scrollHeight > scrollBoxRef.current.clientHeight
+        )
+          setMaskImage(
+            'linear-gradient(rgb(0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%)',
+          );
+    }
+
+    update();
+
+    const observer = new ResizeObserver(update);
+    observer.observe(scrollBoxRef.current);
+    return () => observer.disconnect();
   }, [dependency]);
 
   return (
     <Box
-      ref={ref}
+      ref={scrollBoxRef}
       {...props}
-      sx={mergeSx(props.sx, {
-        maxHeight: 250,
-        overflow: 'scroll',
-        maskImage,
-        '&::-webkit-scrollbar': {
-          display: 'none',
+      sx={mergeSx(
+        {
+          maxHeight: 250,
+          overflow: 'scroll',
+          maskImage,
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
         },
-      })}
+        props.sx,
+      )}
       onScroll={(event) => {
         const target = event.target as HTMLDivElement;
 
