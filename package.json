@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "next dev --port=8080",
+    "dev": "next dev --port=8080 --turbo",
     "build": "next build",
     "start": "next start --port=8080",
     "lint": "next lint",
