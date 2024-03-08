@@ -1,53 +1,25 @@
-import Box from '@mui/joy/Box';
 import Sheet from '@mui/joy/Sheet';
-import Typography from '@mui/joy/Typography';
 import Image from 'next/image';
-import { useEffect, useRef } from 'react';
+import React from 'react';
 
+import FragmentContainer from '@/components/atoms/canvas/FragmentContainer';
 import { maps } from '@/constants';
 import { useCanvasStore } from '@/stores/canvas';
 import { useDataStore } from '@/stores/data';
-
-import type { PropsWithChildren } from 'react';
 
 export interface Vector {
   x: number;
   y: number;
 }
 
-function FragmentContainer({
-  children,
-  zIndex,
-}: PropsWithChildren<{ zIndex: number }>) {
-  const [width, height] = useCanvasStore((s) => [s.width, s.height]);
-
-  return (
-    <Box
-      sx={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-
-        width,
-        height,
-
-        zIndex,
-      }}
-    >
-      {children}
-    </Box>
-  );
-}
-
 export default function Canvas() {
   const [width, height] = useCanvasStore((s) => [s.width, s.height]);
-  const mapIndex = useDataStore((s) => s.mapIndex);
-  const map = maps[mapIndex];
   const [target, gun] = useDataStore((s) => [s.getTarget(), s.getGun()]);
   const [setTarget, setGun] = useDataStore((s) => [s.setTarget, s.setGun]);
-  const ref = useRef<HTMLCanvasElement | null>(null);
+  const ref = React.useRef<HTMLCanvasElement | null>(null);
+  const map = maps[useDataStore((s) => s.mapIndex)];
 
-  useEffect(() => {
+  React.useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
     const context = canvas.getContext('2d') as CanvasRenderingContext2D;
@@ -107,36 +79,17 @@ export default function Canvas() {
 
   return (
     <Sheet sx={{ width, height }}>
-      {map ? (
-        <>
-          <FragmentContainer zIndex={1}>
-            <Image
-              alt={map.name}
-              src={map.image}
-              priority
-              height={height}
-              width={width}
-            />
-          </FragmentContainer>
+      <Image
+        alt={map.name}
+        src={map.image}
+        priority
+        height={height}
+        width={width}
+      />
 
-          <FragmentContainer zIndex={2}>
-            <canvas ref={ref} height={height} width={width} />
-          </FragmentContainer>
-        </>
-      ) : (
-        <Typography
-          sx={{
-            height: '100%',
-
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          level="title-lg"
-        >
-          Please select a map.
-        </Typography>
-      )}
+      <FragmentContainer zIndex={2}>
+        <canvas ref={ref} height={height} width={width} />
+      </FragmentContainer>
     </Sheet>
   );
 }

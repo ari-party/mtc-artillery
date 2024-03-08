@@ -3,7 +3,7 @@ import Select from '@mui/joy/Select';
 import Typography from '@mui/joy/Typography';
 import React from 'react';
 
-import DataContainer from '../../atoms/DataContainer';
+import DataContainer from '../../atoms/configuration/DataContainer';
 import ScrollBox from '../ScrollBox';
 import { maps } from '@/constants';
 import { useDataStore } from '@/stores/data';

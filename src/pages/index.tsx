@@ -7,7 +7,7 @@ import { getEntry } from 'strapi-rest';
 import { useIsClient } from 'usehooks-ts';
 
 import Page from '@/components/layout/Page';
-import CanvasContainer from '@/components/molecules/CanvasContainer';
+import CanvasContainer from '@/components/molecules/canvas/Container';
 import AzimuthValue from '@/components/molecules/configuration/Azimuth';
 import DistanceValue from '@/components/molecules/configuration/Distance';
 import ElevationValue from '@/components/molecules/configuration/Elevation';

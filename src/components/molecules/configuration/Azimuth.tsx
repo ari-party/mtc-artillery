@@ -2,7 +2,7 @@ import todec from '2dec';
 import Typography from '@mui/joy/Typography';
 import React from 'react';
 
-import DataContainer from '../../atoms/DataContainer';
+import DataContainer from '../../atoms/configuration/DataContainer';
 import { useDataStore } from '@/stores/data';
 
 export default function AzimuthValue({ azimuth }: { azimuth: number }) {

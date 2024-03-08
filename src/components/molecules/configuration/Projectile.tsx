@@ -11,7 +11,7 @@ import Typography from '@mui/joy/Typography';
 import React from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
 
-import DataContainer from '../../atoms/DataContainer';
+import DataContainer from '../../atoms/configuration/DataContainer';
 import ScrollBox from '../ScrollBox';
 import { projectiles } from '@/constants';
 import { useDataStore } from '@/stores/data';
