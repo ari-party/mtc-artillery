@@ -10,7 +10,13 @@ export default function TraversableContainer({ children }: PropsWithChildren) {
   const [width, height] = useCanvasStore((s) => [s.width, s.height]);
 
   const [position, setPosition] = React.useState<Vector>({ x: 0, y: 0 });
+  const [zoom, setZoom] = React.useState<number>(1);
   const isMouseDown = React.useRef<boolean>(false);
+
+  function validateZoom(z: number) {
+    return Math.max(1, Math.min(5, z));
+  }
+
 
   function handleInputDown(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -36,12 +42,19 @@ export default function TraversableContainer({ children }: PropsWithChildren) {
     }));
   }
 
+  function handleWheel(event: React.WheelEvent<HTMLDivElement>) {
+    const { deltaY } = event;
+    const newZoom = validateZoom(zoom - deltaY / 1000);
+    setZoom(newZoom);
+  }
+
   return (
     <Box
       onMouseDown={(event) => handleInputDown(event)}
       onMouseUp={(event) => handleInputUp(event)}
       onMouseMove={(event) => handleMouseMove(event)}
       onContextMenu={(event) => event.preventDefault()}
+      onWheel={(event) => handleWheel(event)}
       sx={{ width, height, overflow: 'hidden', position: 'relative' }}
     >
       <Box
@@ -49,6 +62,7 @@ export default function TraversableContainer({ children }: PropsWithChildren) {
           position: 'absolute',
           top: position.y,
           left: position.x,
+          transform: `scale(${zoom})`,
         }}
       >
         {children}
