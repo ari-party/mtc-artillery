@@ -6,7 +6,10 @@ import { useCanvasStore } from '@/stores/canvas';
 import type { Vector } from '@/components/organisms/canvas';
 import type { PropsWithChildren } from 'react';
 
-export default function TraversableContainer({ children }: PropsWithChildren) {
+export default function TraversableContainer({
+  children,
+  zoomConstraints,
+}: PropsWithChildren<{ zoomConstraints: { min: number; max: number } }>) {
   const [width, height] = useCanvasStore((s) => [s.width, s.height]);
 
   const [position, setPosition] = React.useState<Vector>({ x: 0, y: 0 });
@@ -14,7 +17,7 @@ export default function TraversableContainer({ children }: PropsWithChildren) {
   const isMouseDown = React.useRef<boolean>(false);
 
   function validateZoom(z: number) {
-    return Math.max(1, Math.min(5, z));
+    return Math.max(zoomConstraints.min, Math.min(zoomConstraints.max, z));
   }
 
 
