@@ -6,49 +6,111 @@ import { useCanvasStore } from '@/stores/canvas';
 import type { Vector } from '@/components/organisms/canvas';
 import type { PropsWithChildren } from 'react';
 
+interface TransformMatrix {
+  a: number;
+  b: number;
+  c: number;
+  d: number;
+  tx: number;
+  ty: number;
+}
+
 export default function TraversableContainer({
   children,
   zoomConstraints,
 }: PropsWithChildren<{ zoomConstraints: { min: number; max: number } }>) {
   const [width, height] = useCanvasStore((s) => [s.width, s.height]);
 
-  const [position, setPosition] = React.useState<Vector>({ x: 0, y: 0 });
-  const [zoom, setZoom] = React.useState<number>(1);
-  const isMouseDown = React.useRef<boolean>(false);
+  const [transformMatrix, setTransformMatrix] = React.useState<TransformMatrix>(
+    {
+      a: 1,
+      b: 0,
+      c: 0,
+      d: 1,
+      tx: 0,
+      ty: 0,
+    },
+  );
+
+  const isInputDown = React.useRef<boolean>(false);
+  const mapMousePos = React.useRef<Vector>({ x: 0, y: 0 });
 
   function validateZoom(z: number) {
     return Math.max(zoomConstraints.min, Math.min(zoomConstraints.max, z));
   }
 
+  function reset() {
+    setTransformMatrix({
+      a: 1,
+      b: 0,
+      c: 0,
+      d: 1,
+      tx: 0,
+      ty: 0,
+    });
+  }
 
   function handleInputDown(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) {
     if (event.button !== 1) return;
-    isMouseDown.current = true;
+    isInputDown.current = true;
   }
 
   function handleInputUp(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     if (event.button !== 1) return;
-    isMouseDown.current = false;
+    if (event.altKey) {
+      reset();
+    }
+    isInputDown.current = false;
   }
 
   function handleMouseMove(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) {
-    if (!isMouseDown.current) return;
+    if (!isInputDown.current) return;
 
     const { movementX, movementY } = event;
-    setPosition((p) => ({
-      x: p.x + movementX,
-      y: p.y + movementY,
-    }));
+    setTransformMatrix((prev) => {
+      const newTx = prev.tx + movementX;
+      const newTy = prev.ty + movementY;
+      return {
+        ...prev,
+        tx: newTx,
+        ty: newTy,
+      };
+    });
   }
 
   function handleWheel(event: React.WheelEvent<HTMLDivElement>) {
     const { deltaY } = event;
-    const newZoom = validateZoom(zoom - deltaY / 1000);
-    setZoom(newZoom);
+    const zoom = validateZoom(transformMatrix.a - deltaY * 0.001);
+    const { x, y } = mapMousePos.current;
+    const centeredX = x - width / 2;
+    const centeredY = y - height / 2;
+
+    setTransformMatrix((prev) => {
+      const newTx = prev.tx - centeredX * (zoom - prev.a);
+      const newTy = prev.ty - centeredY * (zoom - prev.d);
+
+      return {
+        a: zoom,
+        b: 0,
+        c: 0,
+        d: zoom,
+        tx: newTx,
+        ty: newTy,
+      };
+    });
+  }
+
+  function handleInnerMouseMove(
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) {
+    mapMousePos.current = {
+      x: event.nativeEvent.offsetX,
+      y: event.nativeEvent.offsetY,
+    };
   }
 
   return (
@@ -61,11 +123,17 @@ export default function TraversableContainer({
       sx={{ width, height, overflow: 'hidden', position: 'relative' }}
     >
       <Box
+        onMouseMove={(event) => handleInnerMouseMove(event)}
         sx={{
           position: 'absolute',
-          top: position.y,
-          left: position.x,
-          transform: `scale(${zoom})`,
+          transform: `matrix(
+              ${transformMatrix.a},
+              ${transformMatrix.b},
+              ${transformMatrix.c},
+              ${transformMatrix.d},
+              ${transformMatrix.tx},
+              ${transformMatrix.ty}
+            )`,
         }}
       >
         {children}
