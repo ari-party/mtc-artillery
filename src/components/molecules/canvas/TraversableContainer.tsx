@@ -86,12 +86,10 @@ export default function TraversableContainer({
     const { deltaY } = event;
     const zoom = validateZoom(transformMatrix.a - deltaY * 0.001);
     const { x, y } = mapMousePos.current;
-    const centeredX = x - width / 2;
-    const centeredY = y - height / 2;
 
     setTransformMatrix((prev) => {
-      const newTx = prev.tx - centeredX * (zoom - prev.a);
-      const newTy = prev.ty - centeredY * (zoom - prev.d);
+      const newTx = prev.tx - x * (zoom - prev.a);
+      const newTy = prev.ty - y * (zoom - prev.d);
 
       return {
         a: zoom,
@@ -126,6 +124,7 @@ export default function TraversableContainer({
         onMouseMove={(event) => handleInnerMouseMove(event)}
         sx={{
           position: 'absolute',
+          transformOrigin: '0 0',
           transform: `matrix(
               ${transformMatrix.a},
               ${transformMatrix.b},
