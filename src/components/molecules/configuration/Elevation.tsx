@@ -14,7 +14,6 @@ export default function ElevationValue({
   const [gun, target] = useDataStore((s) => [s.getGun(), s.getTarget()]);
 
   const valid = gun.x >= 0 && gun.y >= 0 && target.x >= 0 && target.y >= 0;
-
   // Yeah it's just that...
   const highArcElevation = 90 - lowArcElevation;
 
@@ -33,7 +32,7 @@ export default function ElevationValue({
             <Typography>{todec(highArcElevation)}°</Typography>
           </>
         ) : (
-          <Typography>Impossible</Typography>
+          <Typography>N/A</Typography>
         )}
       </Stack>
     </DataContainer>
