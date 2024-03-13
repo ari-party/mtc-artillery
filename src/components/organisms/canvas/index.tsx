@@ -63,6 +63,7 @@ export default function Canvas() {
     }
 
     function contextMenuClickListener(event: MouseEvent) {
+      // Opens context menu otherwise, we just want the right click event
       event.preventDefault();
 
       setTarget(event.offsetX / width, event.offsetY / height);
