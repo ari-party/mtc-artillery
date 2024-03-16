@@ -2,6 +2,7 @@ import Box from '@mui/joy/Box';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { getEntry } from 'strapi-rest';
 import { useIsClient } from 'usehooks-ts';
@@ -52,6 +53,7 @@ export default function Index({
   version,
   motd,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const router = useRouter();
   const isClient = useIsClient();
   const [mapIndex, setMapIndex] = useDataStore((s) => [
     s.mapIndex,
@@ -66,15 +68,21 @@ export default function Index({
   const [gun, target] = useDataStore((s) => [s.getGun(), s.getTarget()]);
 
   // Map index doesn't correspond to anything, so reset it
-  if (!map) return setMapIndex(0);
+  if (!map) {
+    setMapIndex(0);
+    router.reload();
+    return;
+  }
   // Projectile index doesn't correspond to anything, so reset it
-  if (!projectile) return setProjectileIndex(0);
+  if (!projectile) {
+    setProjectileIndex(0);
+    router.reload();
+    return;
+  }
 
   const distance =
     calculateDistance(gun.x, target.x, gun.y, target.y) * (map?.size || 0);
-
   const azimuth = calculateAzimuth(gun.x, target.x, gun.y, target.y);
-
   const elevation = calculateElevation(distance, projectile.velocity);
 
   return (

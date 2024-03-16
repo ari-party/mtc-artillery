@@ -28,7 +28,7 @@ export default function ElevationValue({
             <Typography>{todec(highArcElevation)}°</Typography>
           </>
         ) : (
-          <Typography>Impossible</Typography>
+          <Typography>N/A</Typography>
         )}
       </Stack>
     </DataContainer>

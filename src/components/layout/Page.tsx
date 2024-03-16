@@ -16,7 +16,6 @@ export default function Page({ children }: PropsWithChildren) {
 
           padding: 4,
           minHeight: '100svh',
-          width: '100svw',
         }}
       >
         {children}
