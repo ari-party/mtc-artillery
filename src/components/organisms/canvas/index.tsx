@@ -27,36 +27,31 @@ export default function Canvas() {
     context.clearRect(0, 0, width, height);
 
     const markerRadius = 8;
-    const gunValid = gun.x >= 0 && gun.y >= 0;
-    const targetValid = target.x >= 0 && target.y >= 0;
 
-    if (gunValid && targetValid) {
-      context.strokeStyle = '#FFF';
-      context.beginPath();
-      context.moveTo(gun.x * width, gun.y * height);
-      context.lineTo(target.x * width, target.y * height);
-      context.stroke();
-    }
+    // Line
+    context.strokeStyle = '#FFF';
+    context.beginPath();
+    context.moveTo(gun.x * width, gun.y * height);
+    context.lineTo(target.x * width, target.y * height);
+    context.stroke();
 
-    if (gunValid) {
-      context.fillStyle = '#52a8ff';
-      context.beginPath();
-      context.arc(gun.x * width, gun.y * height, markerRadius, 0, 2 * Math.PI);
-      context.fill();
-    }
+    // Gun
+    context.fillStyle = '#52a8ff';
+    context.beginPath();
+    context.arc(gun.x * width, gun.y * height, markerRadius, 0, 2 * Math.PI);
+    context.fill();
 
-    if (targetValid) {
-      context.fillStyle = '#ff6666';
-      context.beginPath();
-      context.arc(
-        target.x * width,
-        target.y * height,
-        markerRadius,
-        0,
-        2 * Math.PI,
-      );
-      context.fill();
-    }
+    // Target
+    context.fillStyle = '#ff6666';
+    context.beginPath();
+    context.arc(
+      target.x * width,
+      target.y * height,
+      markerRadius,
+      0,
+      2 * Math.PI,
+    );
+    context.fill();
 
     function clickListener(event: MouseEvent) {
       setGun(event.offsetX / width, event.offsetY / height);
