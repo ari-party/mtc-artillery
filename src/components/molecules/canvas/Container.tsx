@@ -1,6 +1,7 @@
 import Box from '@mui/joy/Box';
 import React from 'react';
 
+import TraversableContainer from './TraversableContainer';
 import Canvas from '../../organisms/canvas';
 import { useCanvasStore } from '@/stores/canvas';
 
@@ -31,7 +32,9 @@ export default function CanvasContainer() {
 
   return (
     <Box ref={ref} sx={{ aspectRatio: '1/1' }}>
-      <Canvas />
+      <TraversableContainer zoomConstraints={{ min: 1, max: 4 }}>
+        <Canvas />
+      </TraversableContainer>
     </Box>
   );
 }
