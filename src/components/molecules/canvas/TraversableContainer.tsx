@@ -118,7 +118,13 @@ export default function TraversableContainer({
       onMouseMove={(event) => handleMouseMove(event)}
       onContextMenu={(event) => event.preventDefault()}
       onWheel={(event) => handleWheel(event)}
-      sx={{ width, height, overflow: 'hidden', position: 'relative' }}
+      sx={{
+        width,
+        height,
+        overflow: 'hidden',
+        position: 'relative',
+        border: 1,
+      }}
     >
       <Box
         onMouseMove={(event) => handleInnerMouseMove(event)}
