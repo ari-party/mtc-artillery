@@ -1,20 +1,19 @@
+import { calculateMapSize } from './utils/math';
+
 export interface Map {
   image: string;
   name: string;
   size: number;
 }
 
-/**
- * Size is calculated by multiplying the grid size (in studs) by the amount of grid cells (usually 9)
- */
 export const maps: Map[] = [
   {
-    image: '/images/arctic_airbase.jpeg',
+    image: '/images/arctic_airbase.png',
     name: 'Arctic Airbase',
     size: 4041,
   },
   {
-    image: '/images/dustbowl.jpeg',
+    image: '/images/dustbowl.png',
     name: 'Dustbowl',
     size: 3438,
   },
@@ -29,7 +28,7 @@ export const maps: Map[] = [
     size: 3996,
   },
   {
-    image: '/images/radar_station.jpeg',
+    image: '/images/radar_station.png',
     name: 'Radar Station',
     size: 6372,
   },
@@ -39,14 +38,20 @@ export const maps: Map[] = [
     size: 3546,
   },
   {
-    image: '/images/sokolokva.jpeg',
+    image: '/images/sokolokva.png',
     name: 'Sokolokva',
     size: 5004,
   },
   {
-    image: '/images/villers.png',
+    image: '/images/villers_sommeil.png',
     name: 'Villers-Sommeil',
     size: 2997,
+  },
+  {
+    image: '/images/cloudy_valley.png',
+    name: 'Cloudy Valley',
+    // Yet to receive true grid size in studs
+    size: calculateMapSize(116),
   },
 ];
 
