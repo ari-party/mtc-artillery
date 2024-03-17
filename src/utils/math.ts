@@ -30,3 +30,11 @@ export function calculateDistance(
 export function studsToMeters(s: number): number {
   return (1.8 * s) / 5;
 }
+
+export function metersToStuds(m: number): number {
+  return (m * 5) / 1.8;
+}
+
+export function calculateMapSize(m: number): number {
+  return metersToStuds(m) * 9;
+}

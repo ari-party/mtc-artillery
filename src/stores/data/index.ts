@@ -44,7 +44,7 @@ export const useDataStore = create(
         });
       },
 
-      target: { x: '-1', y: '-1' },
+      target: { x: '0.75', y: '0.5' },
       getTarget() {
         return {
           x: Number(this.target.x),
@@ -60,7 +60,7 @@ export const useDataStore = create(
         });
       },
 
-      gun: { x: '-1', y: '-1' },
+      gun: { x: '0.25', y: '0.5' },
       getGun() {
         return {
           x: Number(this.gun.x),
