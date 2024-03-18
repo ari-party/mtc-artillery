@@ -31,7 +31,7 @@ export default function CanvasContainer() {
   });
 
   return (
-    <Box ref={ref} sx={{ aspectRatio: '1/1' }}>
+    <Box ref={ref} sx={{ aspectRatio: '1/1', outline: 1 }}>
       <TraversableContainer zoomConstraints={{ min: 1, max: 4 }}>
         <Canvas />
       </TraversableContainer>

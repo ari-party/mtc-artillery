@@ -133,7 +133,6 @@ export default function TraversableContainer({
         height,
         overflow: 'hidden',
         position: 'relative',
-        border: 1,
       }}
     >
       <Box
