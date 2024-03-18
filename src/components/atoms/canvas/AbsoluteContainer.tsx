@@ -4,7 +4,7 @@ import { useCanvasStore } from '@/stores/canvas';
 
 import type { PropsWithChildren } from 'react';
 
-export default function FragmentContainer({
+export default function AbsoluteContainer({
   children,
   zIndex,
 }: PropsWithChildren<{ zIndex: number }>) {
