@@ -2,7 +2,7 @@ import Sheet from '@mui/joy/Sheet';
 import Image from 'next/image';
 import React from 'react';
 
-import FragmentContainer from '@/components/atoms/canvas/FragmentContainer';
+import AbsoluteContainer from '@/components/atoms/canvas/AbsoluteContainer';
 import { maps } from '@/constants';
 import { useCanvasStore } from '@/stores/canvas';
 import { useDataStore } from '@/stores/data';
@@ -83,9 +83,9 @@ export default function Canvas() {
         width={width}
       />
 
-      <FragmentContainer zIndex={2}>
+      <AbsoluteContainer zIndex={2}>
         <canvas ref={ref} height={height} width={width} />
-      </FragmentContainer>
+      </AbsoluteContainer>
     </Sheet>
   );
 }
