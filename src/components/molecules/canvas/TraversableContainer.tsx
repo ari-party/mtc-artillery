@@ -2,6 +2,7 @@ import Box from '@mui/joy/Box';
 import React from 'react';
 
 import { useCanvasStore } from '@/stores/canvas';
+import { clamp } from '@/utils/math';
 
 import type { Vector } from '@/components/organisms/canvas';
 import type { PropsWithChildren } from 'react';
@@ -36,7 +37,16 @@ export default function TraversableContainer({
   const mapMousePos = React.useRef<Vector>({ x: 0, y: 0 });
 
   function validateZoom(z: number) {
-    return Math.max(zoomConstraints.min, Math.min(zoomConstraints.max, z));
+    return clamp(z, zoomConstraints.min, zoomConstraints.max);
+  }
+
+  function validatePosition(mx: TransformMatrix) {
+    // limit positions from going out of bounds
+    const { tx, ty } = mx;
+    const newTx = clamp(tx, -width * (mx.a - 1), 0);
+    const newTy = clamp(ty, -height * (mx.d - 1), 0);
+
+    return { ...mx, tx: newTx, ty: newTy };
   }
 
   function reset() {
@@ -74,11 +84,10 @@ export default function TraversableContainer({
     setTransformMatrix((prev) => {
       const newTx = prev.tx + movementX;
       const newTy = prev.ty + movementY;
-      return {
-        ...prev,
-        tx: newTx,
-        ty: newTy,
-      };
+
+      const newMx = validatePosition({ ...prev, tx: newTx, ty: newTy });
+
+      return newMx;
     });
   }
 
@@ -91,14 +100,15 @@ export default function TraversableContainer({
       const newTx = prev.tx - x * (zoom - prev.a);
       const newTy = prev.ty - y * (zoom - prev.d);
 
-      return {
+      const newMx = validatePosition({
+        ...prev,
         a: zoom,
-        b: 0,
-        c: 0,
         d: zoom,
         tx: newTx,
         ty: newTy,
-      };
+      });
+
+      return newMx;
     });
   }
 
