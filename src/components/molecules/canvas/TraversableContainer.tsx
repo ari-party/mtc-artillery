@@ -20,14 +20,19 @@ export default function TraversableContainer({
   children,
   zoomConstraints,
 }: PropsWithChildren<{ zoomConstraints: { min: number; max: number } }>) {
-  const [width, height] = useCanvasStore((s) => [s.width, s.height]);
+  const [width, height, setZoom, zoom] = useCanvasStore((s) => [
+    s.width,
+    s.height,
+    s.setZoom,
+    s.zoom,
+  ]);
 
   const [transformMatrix, setTransformMatrix] = React.useState<TransformMatrix>(
     {
-      a: 1,
+      a: zoom,
       b: 0,
       c: 0,
-      d: 1,
+      d: zoom,
       tx: 0,
       ty: 0,
     },
@@ -41,7 +46,7 @@ export default function TraversableContainer({
   }
 
   function validatePosition(mx: TransformMatrix) {
-    // limit positions from going out of bounds
+    // limit the position from going out of bounds
     const { tx, ty } = mx;
     const newTx = clamp(tx, -width * (mx.a - 1), 0);
     const newTy = clamp(ty, -height * (mx.d - 1), 0);
@@ -50,6 +55,7 @@ export default function TraversableContainer({
   }
 
   function reset() {
+    setZoom(1);
     setTransformMatrix({
       a: 1,
       b: 0,
@@ -93,17 +99,20 @@ export default function TraversableContainer({
 
   function handleWheel(event: React.WheelEvent<HTMLDivElement>) {
     const { deltaY } = event;
-    const zoom = validateZoom(transformMatrix.a - deltaY * 0.001);
+    const zoomRate = 1;
+    const zoomFactor = deltaY < 0 ? 1 + zoomRate : 1 / (1 + zoomRate);
+    const newZoom = validateZoom(transformMatrix.a * zoomFactor);
+    setZoom(newZoom);
     const { x, y } = mapMousePos.current;
 
     setTransformMatrix((prev) => {
-      const newTx = prev.tx - x * (zoom - prev.a);
-      const newTy = prev.ty - y * (zoom - prev.d);
+      const newTx = prev.tx - x * (newZoom - prev.a);
+      const newTy = prev.ty - y * (newZoom - prev.d);
 
       const newMx = validatePosition({
         ...prev,
-        a: zoom,
-        d: zoom,
+        a: newZoom,
+        d: newZoom,
         tx: newTx,
         ty: newTy,
       });

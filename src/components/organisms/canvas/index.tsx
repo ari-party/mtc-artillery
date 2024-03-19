@@ -13,7 +13,11 @@ export interface Vector {
 }
 
 export default function Canvas() {
-  const [width, height] = useCanvasStore((s) => [s.width, s.height]);
+  const [width, height, zoom] = useCanvasStore((s) => [
+    s.width,
+    s.height,
+    s.zoom,
+  ]);
   const [target, gun] = useDataStore((s) => [s.getTarget(), s.getGun()]);
   const [setTarget, setGun] = useDataStore((s) => [s.setTarget, s.setGun]);
   const ref = React.useRef<HTMLCanvasElement | null>(null);
@@ -26,7 +30,7 @@ export default function Canvas() {
 
     context.clearRect(0, 0, width, height);
 
-    const markerRadius = 8;
+    const markerRadius = zoom !== 0 ? 8 / Math.log2(zoom + 1) : 8;
 
     // Line
     context.strokeStyle = '#FFF';

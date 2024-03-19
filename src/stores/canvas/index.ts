@@ -7,6 +7,9 @@ export interface CanvasStore {
 
   height: number;
   setHeight: (pixels: number) => void;
+
+  zoom: number;
+  setZoom: (zoom: number) => void;
 }
 
 export const useCanvasStore = create(
@@ -22,6 +25,13 @@ export const useCanvasStore = create(
     setHeight(pixels) {
       set((s) => {
         s.height = pixels;
+      });
+    },
+
+    zoom: 1,
+    setZoom(zoom) {
+      set((s) => {
+        s.zoom = zoom;
       });
     },
   })),
