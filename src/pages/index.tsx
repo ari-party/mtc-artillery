@@ -126,8 +126,7 @@ export default function Index({
 
               <Typography>
                 Left click to set the gun position. Right click to set the
-                target position. Middle click to move the map around. ALT +
-                Middle click to reset map&apos;s zoom and position.
+                target position.
               </Typography>
 
               <Footer version={version} />
