@@ -19,7 +19,11 @@ interface TransformMatrix {
 export default function TraversableContainer({
   children,
   zoomConstraints,
-}: PropsWithChildren<{ zoomConstraints: { min: number; max: number } }>) {
+  zoomRate,
+}: PropsWithChildren<{
+  zoomConstraints: { min: number; max: number };
+  zoomRate: number;
+}>) {
   const [width, height, setZoom, zoom] = useCanvasStore((s) => [
     s.width,
     s.height,
@@ -99,7 +103,6 @@ export default function TraversableContainer({
 
   function handleWheel(event: React.WheelEvent<HTMLDivElement>) {
     const { deltaY } = event;
-    const zoomRate = 1;
     const zoomFactor = deltaY < 0 ? 1 + zoomRate : 1 / (1 + zoomRate);
     const newZoom = validateZoom(transformMatrix.a * zoomFactor);
     setZoom(newZoom);
