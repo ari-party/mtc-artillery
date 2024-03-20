@@ -36,22 +36,28 @@ export default function Canvas() {
     context.lineWidth = 2;
     context.strokeStyle = '#FFF';
     context.beginPath();
-    context.moveTo(gun.x * width, gun.y * height);
-    context.lineTo(target.x * width, target.y * height);
+    context.moveTo(gun.x * width * 2, gun.y * height * 2);
+    context.lineTo(target.x * width * 2, target.y * height * 2);
     context.stroke();
 
     // Gun
     context.fillStyle = '#52a8ff';
     context.beginPath();
-    context.arc(gun.x * width, gun.y * height, markerRadius, 0, 2 * Math.PI);
+    context.arc(
+      gun.x * width * 2,
+      gun.y * height * 2,
+      markerRadius,
+      0,
+      2 * Math.PI,
+    );
     context.fill();
 
     // Target
     context.fillStyle = '#ff6666';
     context.beginPath();
     context.arc(
-      target.x * width,
-      target.y * height,
+      target.x * width * 2,
+      target.y * height * 2,
       markerRadius,
       0,
       2 * Math.PI,
@@ -59,14 +65,17 @@ export default function Canvas() {
     context.fill();
 
     function clickListener(event: MouseEvent) {
-      setGun(event.offsetX / (width / 2), event.offsetY / (height / 2));
+      setGun(event.offsetX / (width / 2) / 2, event.offsetY / (height / 2) / 2);
     }
 
     function contextMenuClickListener(event: MouseEvent) {
       // Opens context menu otherwise, we just want the right click event
       event.preventDefault();
 
-      setTarget(event.offsetX / (width / 2), event.offsetY / (height / 2));
+      setTarget(
+        event.offsetX / (width / 2) / 2,
+        event.offsetY / (height / 2) / 2,
+      );
     }
 
     canvas.addEventListener('click', clickListener);
