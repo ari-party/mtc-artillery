@@ -70,14 +70,7 @@ export default function TraversableContainer({
     });
   }
 
-  function handleInputDown(
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) {
-    if (event.button !== 1) return;
-    isInputDown.current = true;
-  }
-
-  function handleInputUp(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  function handleNativeInputUp(event: MouseEvent) {
     if (event.button !== 1) return;
     if (event.altKey) {
       reset();
@@ -85,11 +78,24 @@ export default function TraversableContainer({
     isInputDown.current = false;
   }
 
+  function handleInputDown(
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) {
+    if (event.button !== 1) return;
+
+    document.addEventListener('mouseup', handleNativeInputUp, { once: true });
+
+    isInputDown.current = true;
+  }
+
+  function handleInputUp(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    handleNativeInputUp(event.nativeEvent);
+  }
+
   function handleMouseMove(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) {
     if (!isInputDown.current) return;
-
     const { movementX, movementY } = event;
     setTransformMatrix((prev) => {
       const newTx = prev.tx + movementX;
