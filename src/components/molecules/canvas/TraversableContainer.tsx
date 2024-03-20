@@ -52,7 +52,7 @@ export default function TraversableContainer({
     return { ...mx, tx: newTx, ty: newTy };
   }
 
-  function handleNativeInputUp(event: MouseEvent) {
+  function handleInputUp(event: React.PointerEvent<HTMLDivElement>) {
     if (event.button !== 1) return;
 
     if (event.altKey) {
@@ -69,21 +69,19 @@ export default function TraversableContainer({
     }
 
     isInputDown.current = false;
+    event.currentTarget.releasePointerCapture(event.pointerId);
   }
 
   return (
     <Box
-      onMouseDown={(event) => {
+      onPointerDown={(event) => {
         if (event.button !== 1) return;
 
-        document.addEventListener('mouseup', handleNativeInputUp, {
-          once: true,
-        });
-
+        event.currentTarget.setPointerCapture(event.pointerId);
         isInputDown.current = true;
       }}
-      onMouseUp={(event) => handleNativeInputUp(event.nativeEvent)}
-      onMouseMove={(event) => {
+      onPointerUp={(event) => handleInputUp(event)}
+      onPointerMove={(event) => {
         if (!isInputDown.current) return;
 
         const { movementX, movementY } = event;
@@ -129,7 +127,7 @@ export default function TraversableContainer({
       }}
     >
       <Box
-        onMouseMove={(event) => {
+        onPointerMove={(event) => {
           mapMousePos.current = {
             x: event.nativeEvent.offsetX,
             y: event.nativeEvent.offsetY,
