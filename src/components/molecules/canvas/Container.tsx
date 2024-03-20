@@ -2,7 +2,7 @@ import Box from '@mui/joy/Box';
 import React from 'react';
 
 import TraversableContainer from './TraversableContainer';
-import Canvas from '../../organisms/canvas';
+import Canvas from '../../organisms/Canvas';
 import { useCanvasStore } from '@/stores/canvas';
 
 export default function CanvasContainer() {

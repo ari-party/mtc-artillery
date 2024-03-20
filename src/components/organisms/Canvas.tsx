@@ -28,11 +28,12 @@ export default function Canvas() {
     if (!canvas) return;
     const context = canvas.getContext('2d') as CanvasRenderingContext2D;
 
-    context.clearRect(0, 0, width, height);
+    context.clearRect(0, 0, width * 2, height * 2);
 
-    const markerRadius = zoom !== 0 ? 8 / Math.log2(zoom + 1) : 8;
+    const markerRadius = zoom <= 1.5 ? 16 : 8;
 
     // Line
+    context.lineWidth = 2;
     context.strokeStyle = '#FFF';
     context.beginPath();
     context.moveTo(gun.x * width, gun.y * height);
@@ -58,14 +59,14 @@ export default function Canvas() {
     context.fill();
 
     function clickListener(event: MouseEvent) {
-      setGun(event.offsetX / width, event.offsetY / height);
+      setGun(event.offsetX / (width / 2), event.offsetY / (height / 2));
     }
 
     function contextMenuClickListener(event: MouseEvent) {
       // Opens context menu otherwise, we just want the right click event
       event.preventDefault();
 
-      setTarget(event.offsetX / width, event.offsetY / height);
+      setTarget(event.offsetX / (width / 2), event.offsetY / (height / 2));
     }
 
     canvas.addEventListener('click', clickListener);
@@ -85,10 +86,16 @@ export default function Canvas() {
         priority
         height={height}
         width={width}
+        unoptimized
       />
 
-      <AbsoluteContainer zIndex={2}>
-        <canvas ref={ref} height={height} width={width} />
+      <AbsoluteContainer zIndex={3}>
+        <canvas
+          ref={ref}
+          height={height * 2}
+          width={width * 2}
+          style={{ height, width }}
+        />
       </AbsoluteContainer>
     </Sheet>
   );
