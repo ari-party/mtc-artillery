@@ -117,6 +117,10 @@ export default function Canvas() {
             allowLeftClickPan: false,
             allowMiddleClickPan: true,
             allowRightClickPan: false,
+            velocityDisabled: true,
+          }}
+          alignmentAnimation={{
+            animationTime: 350,
           }}
         >
           <TransformComponent>
