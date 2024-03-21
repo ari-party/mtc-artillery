@@ -7,12 +7,12 @@ import { getEntry } from 'strapi-rest';
 import { useIsClient } from 'usehooks-ts';
 
 import Page from '@/components/layout/Page';
-import CanvasContainer from '@/components/molecules/canvas/Container';
 import AzimuthValue from '@/components/molecules/configuration/Azimuth';
 import DistanceValue from '@/components/molecules/configuration/Distance';
 import ElevationValue from '@/components/molecules/configuration/Elevation';
 import MapSelection from '@/components/molecules/configuration/Map';
 import ProjectileSelection from '@/components/molecules/configuration/Projectile';
+import Canvas from '@/components/organisms/Canvas';
 import Footer from '@/components/organisms/Footer';
 import Motd from '@/components/organisms/Motd';
 import { maps, projectiles } from '@/constants';
@@ -85,7 +85,7 @@ export default function Index({
               gap: 4,
             }}
           >
-            <CanvasContainer />
+            <Canvas />
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
               {motd && <Motd message={motd} />}

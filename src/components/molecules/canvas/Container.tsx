@@ -1,14 +1,14 @@
 import Box from '@mui/joy/Box';
 import React from 'react';
 
-import TraversableContainer from './TraversableContainer';
-import Canvas from '../../organisms/Canvas';
 import { useCanvasStore } from '@/stores/canvas';
 
-export default function CanvasContainer() {
-  const [setHeight, setWidth] = useCanvasStore((s) => [
-    s.setHeight,
+import type { PropsWithChildren } from 'react';
+
+export default function CanvasContainer({ children }: PropsWithChildren) {
+  const [setWidth, setHeight] = useCanvasStore((s) => [
     s.setWidth,
+    s.setHeight,
   ]);
   const ref = React.useRef<HTMLDivElement | null>(null);
 
@@ -19,8 +19,8 @@ export default function CanvasContainer() {
     function updateDimensions() {
       if (!element) return;
 
-      setHeight(element.offsetHeight);
       setWidth(element.offsetWidth);
+      setHeight(element.offsetHeight);
     }
 
     updateDimensions();
@@ -32,9 +32,7 @@ export default function CanvasContainer() {
 
   return (
     <Box ref={ref} sx={{ aspectRatio: '1/1', outline: 1 }}>
-      <TraversableContainer zoomConstraints={{ min: 1, max: 4 }} zoomRate={0.1}>
-        <Canvas />
-      </TraversableContainer>
+      {children}
     </Box>
   );
 }
