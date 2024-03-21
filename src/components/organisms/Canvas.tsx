@@ -19,38 +19,39 @@ export default function Canvas() {
   const [target, gun] = useDataStore((s) => [s.getTarget(), s.getGun()]);
   const [setTarget, setGun] = useDataStore((s) => [s.setTarget, s.setGun]);
   const ref = React.useRef<HTMLCanvasElement | null>(null);
-  const isPinching = React.useRef<boolean>(false);
+  const isPanning = React.useRef<boolean>(false);
   const map = maps[useDataStore((s) => s.mapIndex)];
+
+  const canvasScale = 8;
+  const scaledWidth = canvasStore.width * canvasScale;
+  const scaledHeight = canvasStore.height * canvasScale;
 
   React.useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
     const context = canvas.getContext('2d') as CanvasRenderingContext2D;
 
-    context.clearRect(0, 0, canvasStore.width * 2, canvasStore.height * 2);
-
-    const markerRadius = Math.max(16 / canvasStore.zoom, 6);
+    context.clearRect(0, 0, scaledWidth, scaledHeight);
 
     // Line
-    context.lineWidth = 2;
+    context.lineWidth = (1.75 * canvasScale) / canvasStore.zoom;
     context.strokeStyle = '#FFF';
     context.beginPath();
-    context.moveTo(
-      gun.x * canvasStore.width * 2,
-      gun.y * canvasStore.height * 2,
-    );
-    context.lineTo(
-      target.x * canvasStore.width * 2,
-      target.y * canvasStore.height * 2,
-    );
+    context.moveTo(gun.x * scaledWidth, gun.y * scaledHeight);
+    context.lineTo(target.x * scaledWidth, target.y * scaledHeight);
     context.stroke();
+
+    const markerRadius = Math.max(
+      (8 * canvasScale) / canvasStore.zoom,
+      4 * (canvasScale / 2),
+    );
 
     // Gun
     context.fillStyle = '#52a8ff';
     context.beginPath();
     context.arc(
-      gun.x * canvasStore.width * 2,
-      gun.y * canvasStore.height * 2,
+      gun.x * scaledWidth,
+      gun.y * scaledHeight,
       markerRadius,
       0,
       Math.PI * 2,
@@ -61,8 +62,8 @@ export default function Canvas() {
     context.fillStyle = '#ff6666';
     context.beginPath();
     context.arc(
-      target.x * canvasStore.width * 2,
-      target.y * canvasStore.height * 2,
+      target.x * scaledWidth,
+      target.y * scaledHeight,
       markerRadius,
       0,
       Math.PI * 2,
@@ -72,24 +73,22 @@ export default function Canvas() {
     async function clickListener(event: MouseEvent) {
       event.preventDefault();
 
-      if (isPinching.current) return;
-
-      console.log(event.button);
+      if (isPanning.current) return;
 
       switch (event.button) {
         // LMB
         case 0:
           setGun(
-            event.offsetX / (canvasStore.width / 2) / 2,
-            event.offsetY / (canvasStore.height / 2) / 2,
+            event.offsetX / (canvasStore.width / canvasScale) / canvasScale,
+            event.offsetY / (canvasStore.height / canvasScale) / canvasScale,
           );
           break;
 
         // RMB
         case 2:
           setTarget(
-            event.offsetX / (canvasStore.width / 2) / 2,
-            event.offsetY / (canvasStore.height / 2) / 2,
+            event.offsetX / (canvasStore.width / canvasScale) / canvasScale,
+            event.offsetY / (canvasStore.height / canvasScale) / canvasScale,
           );
           break;
       }
@@ -108,16 +107,20 @@ export default function Canvas() {
             canvasStore.setZoom(wrapper.instance.transformState.scale)
           }
           onPanningStart={() => {
-            isPinching.current = true;
+            // Don't allow setting gun/target when panning
+            isPanning.current = true;
           }}
           onPanningStop={() => {
-            isPinching.current = false;
+            isPanning.current = false;
           }}
           panning={{
             allowLeftClickPan: false,
             allowMiddleClickPan: true,
             allowRightClickPan: false,
             velocityDisabled: true,
+          }}
+          wheel={{
+            step: 0.1,
           }}
           alignmentAnimation={{
             animationTime: 350,
@@ -136,8 +139,8 @@ export default function Canvas() {
             <AbsoluteContainer zIndex={2}>
               <canvas
                 ref={ref}
-                height={canvasStore.height * 2}
-                width={canvasStore.width * 2}
+                width={scaledWidth}
+                height={scaledHeight}
                 onContextMenu={(event) => event.preventDefault()}
                 style={{
                   width: canvasStore.width,

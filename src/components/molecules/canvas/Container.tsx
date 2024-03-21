@@ -19,7 +19,9 @@ export default function CanvasContainer({ children }: PropsWithChildren) {
     function updateDimensions() {
       if (!element) return;
 
-      setWidth(element.offsetWidth);
+      // setWidth(element.offsetWidth);
+      // Height is the more dominant value, set the width to height to make it 1:1 ratio
+      setWidth(element.offsetHeight);
       setHeight(element.offsetHeight);
     }
 
@@ -31,7 +33,7 @@ export default function CanvasContainer({ children }: PropsWithChildren) {
   });
 
   return (
-    <Box ref={ref} sx={{ aspectRatio: '1/1', outline: 1 }}>
+    <Box ref={ref} sx={{ aspectRatio: '1/1' }}>
       {children}
     </Box>
   );

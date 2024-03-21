@@ -27,7 +27,10 @@ import {
 import type { GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 
 export async function getStaticProps(): Promise<
-  GetStaticPropsResult<{ version: string; motd: string | null }>
+  GetStaticPropsResult<{
+    version: string;
+    motd: string | null;
+  }>
 > {
   const version = (process.env.VERCEL_GIT_COMMIT_SHA ?? 'dev').slice(0, 9);
   let motd;
@@ -45,7 +48,13 @@ export async function getStaticProps(): Promise<
     }
   }
 
-  return { props: { version, motd: motd || null }, revalidate: 120 };
+  return {
+    props: {
+      version,
+      motd: motd || null,
+    },
+    revalidate: 120,
+  };
 }
 
 export default function Index({
@@ -77,18 +86,22 @@ export default function Index({
         {isClient && (
           <Box
             sx={{
-              display: 'grid',
-              gridTemplateColumns: {
-                sm: null,
-                md: '1fr minmax(auto, 50%)',
-              },
+              display: 'flex',
+
               gap: 4,
             }}
           >
             <Canvas />
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
-              {motd && <Motd message={motd} />}
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 2.5,
+                minHeight: '70svh',
+              }}
+            >
+              <Motd message={motd || undefined} />
 
               <Stack
                 spacing={1}
@@ -106,9 +119,10 @@ export default function Index({
                 <MapSelection />
               </Stack>
 
-              <Typography>
+              <Typography sx={{ maxWidth: 500 }}>
                 Left click to set the gun position. Right click to set the
-                target position.
+                target position. Hold middle click to move the map around, and
+                scroll wheel to zoom.
               </Typography>
 
               <Footer version={version} />

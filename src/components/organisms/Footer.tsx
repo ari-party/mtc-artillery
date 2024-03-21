@@ -1,6 +1,7 @@
-import { Stack, Typography } from '@mui/joy';
-import NextLink from 'next/link';
+import Stack from '@mui/joy/Stack';
+import Typography from '@mui/joy/Typography';
 
+import Link from '../atoms/footer/Link';
 import BMACIcon from '../atoms/icons/BMAC';
 import GitHubIcon from '../atoms/icons/GitHub';
 
@@ -16,21 +17,13 @@ export default function Footer({ version }: { version: string }) {
       }}
     >
       <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
-        <NextLink
-          href="https://github.com/ari-party/mtc-artillery"
-          target="_blank"
-          style={{ display: 'flex', alignItems: 'center' }}
-        >
+        <Link href="https://github.com/ari-party/mtc-artillery">
           <GitHubIcon />
-        </NextLink>
+        </Link>
 
-        <NextLink
-          href="https://www.buymeacoffee.com/valk"
-          target="_blank"
-          style={{ display: 'flex', alignItems: 'center' }}
-        >
+        <Link href="https://www.buymeacoffee.com/valk">
           <BMACIcon />
-        </NextLink>
+        </Link>
       </Stack>
 
       <Typography
