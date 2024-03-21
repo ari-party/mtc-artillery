@@ -86,9 +86,8 @@ export default function TraversableContainer({
       onPointerMove={(event) => {
         if (!isInputDown.current) return;
 
-        if (!isDragging.current) {
+        if (!isDragging.current)
           event.currentTarget.setPointerCapture(event.pointerId);
-        }
         isDragging.current = true;
 
         const { movementX, movementY } = event;
