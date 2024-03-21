@@ -37,6 +37,7 @@ export default function TraversableContainer({
     },
   );
   const isInputDown = React.useRef<boolean>(false);
+  const isDragging = React.useRef<boolean>(false);
   const mapMousePos = React.useRef<Vector>({ x: 0, y: 0 });
 
   function validateZoom(z: number) {
@@ -53,7 +54,7 @@ export default function TraversableContainer({
   }
 
   function handleInputUp(event: React.PointerEvent<HTMLDivElement>) {
-    if (event.button !== 1) return;
+    if (event.button !== 0) return;
 
     if (event.altKey) {
       canvasStore.setZoom(1);
@@ -68,6 +69,7 @@ export default function TraversableContainer({
       });
     }
 
+    isDragging.current = false;
     isInputDown.current = false;
     event.currentTarget.releasePointerCapture(event.pointerId);
   }
@@ -75,14 +77,19 @@ export default function TraversableContainer({
   return (
     <Box
       onPointerDown={(event) => {
-        if (event.button !== 1) return;
+        if (event.button !== 0) return;
+        event.preventDefault();
 
-        event.currentTarget.setPointerCapture(event.pointerId);
         isInputDown.current = true;
       }}
       onPointerUp={(event) => handleInputUp(event)}
       onPointerMove={(event) => {
         if (!isInputDown.current) return;
+
+        if (!isDragging.current) {
+          event.currentTarget.setPointerCapture(event.pointerId);
+        }
+        isDragging.current = true;
 
         const { movementX, movementY } = event;
 
