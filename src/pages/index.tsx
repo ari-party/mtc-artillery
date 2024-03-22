@@ -86,8 +86,11 @@ export default function Index({
         {isClient && (
           <Box
             sx={{
-              display: 'flex',
-
+              display: 'grid',
+              gridTemplateColumns: {
+                MozBoxDirection: null,
+                lg: '1fr minmax(auto, 50%)',
+              },
               gap: 4,
             }}
           >
@@ -98,7 +101,6 @@ export default function Index({
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 2.5,
-                minHeight: '70svh',
               }}
             >
               <Motd message={motd || undefined} />

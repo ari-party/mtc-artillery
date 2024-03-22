@@ -33,7 +33,14 @@ export default function CanvasContainer({ children }: PropsWithChildren) {
   });
 
   return (
-    <Box ref={ref} sx={{ aspectRatio: '1/1' }}>
+    <Box
+      ref={ref}
+      sx={{
+        aspectRatio: '1/1',
+        maxHeight: '75svh',
+        height: 'max-content',
+      }}
+    >
       {children}
     </Box>
   );
