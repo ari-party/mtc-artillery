@@ -2,18 +2,17 @@ import Box from '@mui/joy/Box';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import React from 'react';
 import { getEntry } from 'strapi-rest';
 import { useIsClient } from 'usehooks-ts';
 
 import Page from '@/components/layout/Page';
-import CanvasContainer from '@/components/molecules/canvas/Container';
 import AzimuthValue from '@/components/molecules/configuration/Azimuth';
 import DistanceValue from '@/components/molecules/configuration/Distance';
 import ElevationValue from '@/components/molecules/configuration/Elevation';
 import MapSelection from '@/components/molecules/configuration/Map';
 import ProjectileSelection from '@/components/molecules/configuration/Projectile';
+import Canvas from '@/components/organisms/Canvas';
 import Footer from '@/components/organisms/Footer';
 import Motd from '@/components/organisms/Motd';
 import { maps, projectiles } from '@/constants';
@@ -28,7 +27,10 @@ import {
 import type { GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 
 export async function getStaticProps(): Promise<
-  GetStaticPropsResult<{ version: string; motd: string | null }>
+  GetStaticPropsResult<{
+    version: string;
+    motd: string | null;
+  }>
 > {
   const version = (process.env.VERCEL_GIT_COMMIT_SHA ?? 'dev').slice(0, 9);
   let motd;
@@ -46,39 +48,28 @@ export async function getStaticProps(): Promise<
     }
   }
 
-  return { props: { version, motd: motd || null }, revalidate: 120 };
+  return {
+    props: {
+      version,
+      motd: motd || null,
+    },
+    revalidate: 120,
+  };
 }
 
 export default function Index({
   version,
   motd,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const router = useRouter();
   const isClient = useIsClient();
-  const [mapIndex, setMapIndex] = useDataStore((s) => [
-    s.mapIndex,
-    s.setMapIndex,
-  ]);
+  const mapIndex = useDataStore((s) => s.mapIndex);
   const map = maps[mapIndex];
-  const [projectileIndex, setProjectileIndex] = useDataStore((s) => [
+  const [projectileIndex] = useDataStore((s) => [
     s.projectileIndex,
     s.setProjectileIndex,
   ]);
   const projectile = projectiles[projectileIndex];
   const [gun, target] = useDataStore((s) => [s.getGun(), s.getTarget()]);
-
-  // Map index doesn't correspond to anything, so reset it
-  if (!map) {
-    setMapIndex(0);
-    router.reload();
-    return;
-  }
-  // Projectile index doesn't correspond to anything, so reset it
-  if (!projectile) {
-    setProjectileIndex(0);
-    router.reload();
-    return;
-  }
 
   const distance =
     calculateDistance(gun.x, target.x, gun.y, target.y) * (map?.size || 0);
@@ -97,16 +88,22 @@ export default function Index({
             sx={{
               display: 'grid',
               gridTemplateColumns: {
-                sm: null,
-                md: '1fr minmax(auto, 50%)',
+                MozBoxDirection: null,
+                lg: '1fr minmax(auto, 50%)',
               },
               gap: 4,
             }}
           >
-            <CanvasContainer />
+            <Canvas />
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
-              {motd && <Motd message={motd} />}
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 2.5,
+              }}
+            >
+              <Motd message={motd || undefined} />
 
               <Stack
                 spacing={1}
@@ -124,9 +121,10 @@ export default function Index({
                 <MapSelection />
               </Stack>
 
-              <Typography>
+              <Typography sx={{ maxWidth: 500 }}>
                 Left click to set the gun position. Right click to set the
-                target position.
+                target position. Hold middle click to move the map around, and
+                scroll wheel to zoom.
               </Typography>
 
               <Footer version={version} />

@@ -1,13 +1,14 @@
 import Box from '@mui/joy/Box';
 import React from 'react';
 
-import Canvas from '../../organisms/canvas';
 import { useCanvasStore } from '@/stores/canvas';
 
-export default function CanvasContainer() {
-  const [setHeight, setWidth] = useCanvasStore((s) => [
-    s.setHeight,
+import type { PropsWithChildren } from 'react';
+
+export default function CanvasContainer({ children }: PropsWithChildren) {
+  const [setWidth, setHeight] = useCanvasStore((s) => [
     s.setWidth,
+    s.setHeight,
   ]);
   const ref = React.useRef<HTMLDivElement | null>(null);
 
@@ -18,8 +19,10 @@ export default function CanvasContainer() {
     function updateDimensions() {
       if (!element) return;
 
+      // setWidth(element.offsetWidth);
+      // Height is the more dominant value, set the width to height to make it 1:1 ratio
+      setWidth(element.offsetHeight);
       setHeight(element.offsetHeight);
-      setWidth(element.offsetWidth);
     }
 
     updateDimensions();
@@ -30,8 +33,15 @@ export default function CanvasContainer() {
   });
 
   return (
-    <Box ref={ref} sx={{ aspectRatio: '1/1' }}>
-      <Canvas />
+    <Box
+      ref={ref}
+      sx={{
+        aspectRatio: '1/1',
+        maxHeight: '75svh',
+        height: 'max-content',
+      }}
+    >
+      {children}
     </Box>
   );
 }

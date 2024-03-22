@@ -4,7 +4,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 
-import type { Vector } from '@/components/organisms/canvas';
+import type { Vector } from '@/components/organisms/Canvas';
 
 interface StringVector {
   x: string;

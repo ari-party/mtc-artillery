@@ -3,7 +3,9 @@ import Typography from '@mui/joy/Typography';
 
 import ScrollBox from '../molecules/ScrollBox';
 
-export default function Motd({ message }: { message: string }) {
+function Motd({ message }: { message?: string }) {
+  if (!message) return;
+
   return (
     <Card
       role="alert"
@@ -31,3 +33,9 @@ export default function Motd({ message }: { message: string }) {
     </Card>
   );
 }
+
+Motd.defaultProps = {
+  message: '',
+};
+
+export default Motd;

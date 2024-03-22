@@ -15,7 +15,7 @@ export default function Page({ children }: PropsWithChildren) {
           alignItems: 'center',
 
           padding: 4,
-          minHeight: '100svh',
+          minHeight: '100vh',
         }}
       >
         {children}
