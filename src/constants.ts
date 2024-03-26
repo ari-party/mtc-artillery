@@ -95,7 +95,7 @@ export const guns: Record<string, Gun> = {
   'd-30': {
     name: '122mm D-30',
   },
-  
+
   '2b9': {
     name: '82mm 2B9 Vasilek',
   },
@@ -206,8 +206,8 @@ export const projectiles: Projectile[] = [
     gun: guns['d-30'],
   },
 
-   // 82mm 2B9 Vasilek
-   {
+  // 82mm 2B9 Vasilek
+  {
     name: 'Medium Charge',
     velocity: 175,
     gun: guns['2b9'],
