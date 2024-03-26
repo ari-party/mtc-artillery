@@ -91,6 +91,14 @@ export const guns: Record<string, Gun> = {
   propane: {
     name: 'Hell Cannon',
   },
+
+  'd-30': {
+    name: '122mm D-30',
+  },
+  
+  '2b9': {
+    name: '82mm 2B9 Vasilek',
+  },
 };
 
 export interface Projectile {
@@ -184,5 +192,34 @@ export const projectiles: Projectile[] = [
     name: 'Propane',
     velocity: 130,
     gun: guns.propane,
+  },
+
+  // 122mm D-30
+  {
+    name: 'HE',
+    velocity: 690,
+    gun: guns['d-30'],
+  },
+  {
+    name: 'HEAT',
+    velocity: 726,
+    gun: guns['d-30'],
+  },
+
+   // 82mm 2B9 Vasilek
+   {
+    name: 'Medium Charge',
+    velocity: 175,
+    gun: guns['2b9'],
+  },
+  {
+    name: 'Low Charge',
+    velocity: 75,
+    gun: guns['2b9'],
+  },
+  {
+    name: 'High Charge',
+    velocity: 255,
+    gun: guns['2b9'],
   },
 ];
