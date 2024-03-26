@@ -51,7 +51,7 @@ export const maps: Map[] = [
     image: '/images/cloudy_valley.png',
     name: 'Cloudy Valley',
     // Yet to receive true grid size in studs
-    size: calculateMapSize(116),
+    size: calculateMapSize(116, 9),
   },
 ];
 
