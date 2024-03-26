@@ -51,7 +51,7 @@ export const maps: Map[] = [
     image: '/images/cloudy_valley.png',
     name: 'Cloudy Valley',
     // Yet to receive true grid size in studs
-    size: calculateMapSize(116, 9),
+    size: calculateMapSize(116),
   },
 ];
 
@@ -62,6 +62,10 @@ export interface Gun {
 export const guns: Record<string, Gun> = {
   't34-calliope': {
     name: 'T34 Calliope',
+  },
+
+  'D-30': {
+    name: '122mm D-30',
   },
 
   rszo: {
@@ -115,6 +119,18 @@ export const projectiles: Projectile[] = [
     name: 'M8 Rocket',
     velocity: 260,
     gun: guns['t34-calliope'],
+  },
+
+  // D-30
+  {
+    name: 'HE',
+    velocity: 690,
+    gun: guns['D-30'],
+  },
+  {
+    name: 'HEAT',
+    velocity: 726,
+    gun: guns['D-30'],
   },
 
   // RSZO-1 series
